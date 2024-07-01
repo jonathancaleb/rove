@@ -1,28 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<!--
+    AndroidManifest.xml file
+    This XML file defines essential information about the application,
+    such as permissions, activities, services, and intents.
 
+    Permissions:
+    - POST_NOTIFICATIONS: Allows the app to post notifications.
+    - READ_MEDIA_AUDIO: Allows the app to read audio files.
+    - READ_EXTERNAL_STORAGE: Allows the app to read from external storage (up to SDK version 32).
+    - WAKE_LOCK: Allows the app to prevent the device from sleeping.
+    - FOREGROUND_SERVICE: Allows the app to run foreground services.
+    - MODIFY_AUDIO_SETTINGS: Allows the app to modify audio settings.
+
+    Queries:
+    - Defines intent queries to handle actions related to browsing.
+
+    Application:
+    - Defines the main application configuration, including the custom application class (`RoveApp`),
+      app icon, labels, backup settings, theme, and other attributes.
+
+    Activities:
+    - MainActivity: The main entry point of the application. Handles launching, screen orientation,
+      and input mode adjustments. Also handles actions related to music playback.
+
+    - EqualizerActivity: Activity for handling equalizer settings.
+
+    Receivers:
+    - MediaButtonReceiver: Receives media button events.
+
+    Services (commented out):
+    - PlayerService: Service for media playback (currently commented out).
+    - PlayerTileService: Service for handling quick settings tile (currently commented out).
+
+    TODO:
+    - Modify app label from debug to release.
+
+    Note:
+    - Some components (services) are commented out; they can be uncommented and configured as needed.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.rove">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+
+    <queries>
+        <!-- Browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="http"/>
+        </intent>
+    </queries>
+
+    <!-- TODO: modify app label from debug to release -->
     <application
+        android:name=".RoveApp"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/app_name_debug"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Rove"
-        tools:targetApi="31">
+        android:theme="@style/BaseTheme.Default"
+        tools:ignore="UnusedAttribute">
+
+        <!-- MainActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Rove">
+            android:launchMode="singleTask"
+            android:screenOrientation="user"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.APP_MUSIC" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.MUSIC_PLAYER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
+
+        <!-- EqualizerActivity -->
+        <activity
+            android:name=".equalizer.EqualizerActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="user" />
+
+        <!-- MediaButtonReceiver -->
+        <!--
+            Work around apps that blindly query for ACTION_MEDIA_BUTTON working.
+            See the class for more info.
+        -->
+        <receiver
+            android:name=".player.MediaButtonReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Services (commented out) -->
+        <!--
+        <service
+            android:name=".player.PlayerService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher" />
+
+        <service
+            android:name=".player.PlayerTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_music_note"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+        -->
     </application>
 
 </manifest>
