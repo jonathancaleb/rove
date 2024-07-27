@@ -1,35 +1,24 @@
-package com.example.rove
+package com.iven.musicplayergo
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.request.CachePolicy
+import com.example.rove.utils.Theming
+import com.iven.musicplayergo.utils.Theming
 
-/**
- * Custom application class for the Rove app.
- *
- * This class initializes necessary components when the application starts,
- * such as preferences and image loading.
- */
-class RoveApp : Application(), ImageLoaderFactory {
 
-    /**
-     * Called when the application is starting. Initializes preferences.
-     */
+class GoApp : Application(), ImageLoaderFactory {
+
     override fun onCreate() {
         super.onCreate()
-
-        // Initialize application preferences
-        RovePreferences.initPrefs(applicationContext)
+        GoPreferences.initPrefs(applicationContext)
+        AppCompatDelegate.setDefaultNightMode(Theming.getDefaultNightMode(applicationContext))
     }
 
-    /**
-     * Creates a new instance of [ImageLoader] for image loading.
-     *
-     * @return A new [ImageLoader] instance.
-     */
-    override fun newImageLoader(): ImageLoader {
-        // TODO: Implement image loader configuration
-        // Currently not implemented
-        TODO("Not yet implemented")
-    }
+    override fun newImageLoader() = ImageLoader.Builder(this)
+        .diskCachePolicy(CachePolicy.DISABLED)
+        .crossfade(true)
+        .build()
 }
