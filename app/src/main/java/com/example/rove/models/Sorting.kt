@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.models
+package com.example.rove.models
 
 import com.squareup.moshi.JsonClass
 

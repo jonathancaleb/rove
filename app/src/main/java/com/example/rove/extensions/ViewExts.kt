@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.extensions
+package com.example.rove.extensions
 
 import android.animation.Animator
 import android.animation.ValueAnimator
@@ -41,9 +41,9 @@ import coil.load
 import com.google.android.material.animation.ArgbEvaluatorCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.ui.SingleClickHelper
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.R
+import com.example.rove.ui.SingleClickHelper
+import com.example.rove.utils.Theming
 import kotlin.math.max
 
 

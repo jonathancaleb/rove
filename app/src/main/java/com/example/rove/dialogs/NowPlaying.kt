@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.dialogs
+package com.example.rove.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -10,21 +10,21 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.NowPlayingBinding
-import com.iven.musicplayergo.databinding.NowPlayingControlsBinding
-import com.iven.musicplayergo.databinding.NowPlayingCoverBinding
-import com.iven.musicplayergo.databinding.NowPlayingVolControlBinding
-import com.iven.musicplayergo.extensions.*
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Popups
-import com.iven.musicplayergo.utils.Theming
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.NowPlayingBinding
+import com.example.rove.databinding.NowPlayingControlsBinding
+import com.example.rove.databinding.NowPlayingCoverBinding
+import com.example.rove.databinding.NowPlayingVolControlBinding
+import com.example.rove.extensions.*
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Popups
+import com.example.rove.utils.Theming
+import com.example.rove.utils.Versioning
 
 
 class NowPlaying: BottomSheetDialogFragment() {
@@ -43,7 +43,7 @@ class NowPlaying: BottomSheetDialogFragment() {
 
     private val mMediaPlayerHolder get() = MediaPlayerHolder.getInstance()
 
-    private val mGoPreferences get() = GoPreferences.getPrefsInstance()
+    private val mRovePreferences get() = RovePreferences.getPrefsInstance()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -175,9 +175,9 @@ class NowPlaying: BottomSheetDialogFragment() {
                 }
 
                 with (npPauseOnEnd) {
-                    isChecked = mGoPreferences.continueOnEnd
+                    isChecked = mRovePreferences.continueOnEnd
                     setOnCheckedChangeListener { _, isChecked ->
-                        mGoPreferences.continueOnEnd = isChecked
+                        mRovePreferences.continueOnEnd = isChecked
                         var msg = R.string.pause_on_end
                         if (isChecked) msg = R.string.pause_on_end_disabled
                         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT)
@@ -208,7 +208,7 @@ class NowPlaying: BottomSheetDialogFragment() {
 
         _npExtControlsBinding?.run {
 
-            val isVolumeEnabled = mGoPreferences.isPreciseVolumeEnabled
+            val isVolumeEnabled = mRovePreferences.isPreciseVolumeEnabled
             npVolumeContainer.handleViewVisibility(show = isVolumeEnabled)
 
             if (isVolumeEnabled) {
@@ -367,12 +367,12 @@ class NowPlaying: BottomSheetDialogFragment() {
             with(mMediaPlayerHolder) {
                 (currentSongFM ?: currentSong)?.let { song ->
                     // load album cover
-                    if (mAlbumIdNp != song.albumId && mGoPreferences.isCovers) {
+                    if (mAlbumIdNp != song.albumId && mRovePreferences.isCovers) {
                         loadNpCover(song)
                     }
                     // load album/song info
                     var songTitle = song.title
-                    if (mGoPreferences.songsVisualization == GoConstants.FN) {
+                    if (mRovePreferences.songsVisualization == GoConstants.FN) {
                         songTitle = song.displayName.toFilenameWithoutExtension()
                     }
                     _nowPlayingBinding?.npSong?.text = songTitle

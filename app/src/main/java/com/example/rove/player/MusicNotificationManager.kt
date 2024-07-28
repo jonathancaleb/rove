@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 
 import android.annotation.SuppressLint
@@ -15,12 +15,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.models.NotificationAction
-import com.iven.musicplayergo.ui.MainActivity
-import com.iven.musicplayergo.utils.Theming
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.models.NotificationAction
+import com.example.rove.ui.MainActivity
+import com.example.rove.utils.Theming
+import com.example.rove.utils.Versioning
 
 
 class MusicNotificationManager(private val playerService: PlayerService) {
@@ -47,7 +47,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         return PendingIntent.getService(playerService, GoConstants.NOTIFICATION_INTENT_REQUEST_CODE, intent, flags)
     }
 
-    private val notificationActions: NotificationAction get() = GoPreferences.getPrefsInstance().notificationActions
+    private val notificationActions: NotificationAction get() = RovePreferences.getPrefsInstance().notificationActions
 
     fun createNotification(onCreated: (Notification) -> Unit) {
 

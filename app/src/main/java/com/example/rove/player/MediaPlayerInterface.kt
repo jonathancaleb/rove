@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 interface MediaPlayerInterface {
     fun onPositionChanged(position: Int)

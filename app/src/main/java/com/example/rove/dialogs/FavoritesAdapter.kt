@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.dialogs
+package com.example.rove.dialogs
 
 
 import android.content.Context
@@ -9,14 +9,14 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.MusicItemBinding
-import com.iven.musicplayergo.extensions.enablePopupIcons
-import com.iven.musicplayergo.extensions.setTitle
-import com.iven.musicplayergo.extensions.toFormattedDuration
-import com.iven.musicplayergo.extensions.toName
-import com.iven.musicplayergo.models.Music
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.MusicItemBinding
+import com.example.rove.extensions.enablePopupIcons
+import com.example.rove.extensions.setTitle
+import com.example.rove.extensions.toFormattedDuration
+import com.example.rove.extensions.toName
+import com.example.rove.models.Music
 
 
 class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>() {
@@ -28,7 +28,7 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>(
     var onFavoritesQueued: ((songs: List<Music>?, forcePlay: Pair<Boolean, Music?>) -> Unit)? = null
 
     // favorites
-    private var mFavorites = GoPreferences.getPrefsInstance().favorites?.toMutableList()
+    private var mFavorites = RovePreferences.getPrefsInstance().favorites?.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesHolder {
         val binding = MusicItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -105,7 +105,7 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>(
                 remove(song)
                 notifyItemRemoved(position)
                 // update
-                GoPreferences.getPrefsInstance().favorites = mFavorites
+                RovePreferences.getPrefsInstance().favorites = mFavorites
                 if (mFavorites.isNullOrEmpty()) {
                     onFavoritesCleared?.invoke()
                 }
@@ -114,7 +114,7 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>(
         }
 
         mFavorites?.get(position)?.let { song ->
-            if (GoPreferences.getPrefsInstance().isAskForRemoval) {
+            if (RovePreferences.getPrefsInstance().isAskForRemoval) {
 
                 var msg = context.getString(
                     R.string.favorite_remove,

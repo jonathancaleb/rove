@@ -1,18 +1,18 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.databinding.FilterItemBinding
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.databinding.FilterItemBinding
+import com.example.rove.utils.Theming
 
 
 class FiltersAdapter: RecyclerView.Adapter<FiltersAdapter.CheckableItemsHolder>() {
 
     private val mItemsToRemove = mutableListOf<String>()
 
-    private val mAvailableItems = GoPreferences.getPrefsInstance().filters?.sorted()?.toMutableList()
+    private val mAvailableItems = RovePreferences.getPrefsInstance().filters?.sorted()?.toMutableList()
 
     fun getUpdatedItems() = mAvailableItems?.apply {
         removeAll(mItemsToRemove.toSet())

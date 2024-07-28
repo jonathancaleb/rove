@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 import android.content.BroadcastReceiver
 import android.content.Context

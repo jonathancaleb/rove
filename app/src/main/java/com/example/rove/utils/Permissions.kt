@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.utils
+package com.example.rove.utils
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -9,8 +9,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.ui.UIControlInterface
+import com.example.rove.R
+import com.example.rove.ui.UIControlInterface
 
 object Permissions {
 

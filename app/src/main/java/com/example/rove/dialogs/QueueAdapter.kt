@@ -1,19 +1,19 @@
-package com.iven.musicplayergo.dialogs
+package com.example.rove.dialogs
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.QueueItemBinding
-import com.iven.musicplayergo.extensions.findIndex
-import com.iven.musicplayergo.extensions.startSongFromQueue
-import com.iven.musicplayergo.extensions.toName
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.QueueItemBinding
+import com.example.rove.extensions.findIndex
+import com.example.rove.extensions.startSongFromQueue
+import com.example.rove.extensions.toName
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.utils.Theming
 
 
 class QueueAdapter : RecyclerView.Adapter<QueueAdapter.QueueHolder>() {
@@ -78,7 +78,7 @@ class QueueAdapter : RecyclerView.Adapter<QueueAdapter.QueueHolder>() {
 
     fun performQueueSongDeletion(context: Context, adapterPosition: Int): Boolean {
         val song = queueSongs[adapterPosition]
-        val prefs = GoPreferences.getPrefsInstance()
+        val prefs = RovePreferences.getPrefsInstance()
         if (prefs.isAskForRemoval) {
             notifyItemChanged(adapterPosition)
             return if (song != mSelectedSong || mediaPlayerHolder.isQueue == null) {

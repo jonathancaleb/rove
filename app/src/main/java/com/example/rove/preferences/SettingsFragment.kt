@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 
 import android.annotation.SuppressLint
@@ -16,11 +16,11 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.FragmentSettingsBinding
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.FragmentSettingsBinding
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Versioning
 
 
 /**
@@ -90,15 +90,15 @@ class SettingsFragment : Fragment() {
         val dialog: MaterialAlertDialogBuilder = MaterialAlertDialogBuilder(requireContext()).setTitle(R.string.locale_pref_title).setItems(locales.values.toTypedArray()) { _, which ->
             // Respond to item chosen
             val newLocale = locales.keys.elementAt(which)
-            if (GoPreferences.getPrefsInstance().locale != newLocale) {
-                GoPreferences.getPrefsInstance().locale = locales.keys.elementAt(which)
+            if (RovePreferences.getPrefsInstance().locale != newLocale) {
+                RovePreferences.getPrefsInstance().locale = locales.keys.elementAt(which)
                 mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
             }
         }.setNegativeButton(R.string.cancel, null)
 
-        if (GoPreferences.getPrefsInstance().locale != null) {
+        if (RovePreferences.getPrefsInstance().locale != null) {
             dialog.setNeutralButton(R.string.sorting_pref_default) { _, _ ->
-                GoPreferences.getPrefsInstance().locale = null
+                RovePreferences.getPrefsInstance().locale = null
                 mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
             }
         }

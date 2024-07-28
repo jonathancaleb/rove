@@ -1,19 +1,19 @@
-package com.iven.musicplayergo.utils
+package com.example.rove.utils
 
 import android.app.Activity
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.extensions.enablePopupIcons
-import com.iven.musicplayergo.extensions.setTitle
-import com.iven.musicplayergo.extensions.setTitleColor
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.extensions.enablePopupIcons
+import com.example.rove.extensions.setTitle
+import com.example.rove.extensions.setTitleColor
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
 
 object Popups {
 
@@ -63,8 +63,8 @@ object Popups {
             inflate(R.menu.popup_speed)
             gravity = Gravity.END
 
-            if (GoPreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
-                menu.findItem(getSelectedPlaybackItem(GoPreferences.getPrefsInstance().latestPlaybackSpeed)).setTitleColor(
+            if (RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
+                menu.findItem(getSelectedPlaybackItem(RovePreferences.getPrefsInstance().latestPlaybackSpeed)).setTitleColor(
                     Theming.resolveThemeColor(activity.resources)
                 )
             }
@@ -82,7 +82,7 @@ object Popups {
                     R.id.speed_8 -> 2.5F
                     else -> 2.5F
                 }
-                if (GoPreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
+                if (RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
                     menu.findItem(getSelectedPlaybackItem(playbackSpeed)).setTitleColor(
                         Theming.resolveThemeColor(activity.resources)
                     )

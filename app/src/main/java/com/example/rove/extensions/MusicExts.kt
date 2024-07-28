@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.extensions
+package com.example.rove.extensions
 
 import android.content.ContentUris
 import android.content.Context
@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.Coil
 import coil.request.ImageRequest
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.MusicViewModel
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.MusicUtils
+import com.example.rove.RovePreferences
+import com.example.rove.MusicViewModel
+import com.example.rove.R
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.utils.Lists
+import com.example.rove.utils.MusicUtils
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -107,7 +107,7 @@ fun Long.toAlbumArtURI(): Uri = ContentUris.withAppendedId(
 fun Long.waitForCover(context: Context, onDone: (Bitmap?, Boolean) -> Unit) {
     Coil.imageLoader(context).enqueue(
         ImageRequest.Builder(context)
-            .data(if (GoPreferences.getPrefsInstance().isCovers) toAlbumArtURI() else null)
+            .data(if (RovePreferences.getPrefsInstance().isCovers) toAlbumArtURI() else null)
             .target(
                 onSuccess = { onDone(it.toBitmap(), false) },
                 onError = { onDone(null, true) }
@@ -183,18 +183,18 @@ fun List<Music>.findIndex(song: Music?) = indexOfFirst {
 }
 
 fun Music?.toName(): String? {
-    if (GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+    if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
         return this?.displayName?.toFilenameWithoutExtension()
     }
     return this?.title
 }
 
-fun String?.findSorting(launchedBy: String) = GoPreferences.getPrefsInstance().sortings?.firstOrNull {
-    it.albumOrFolder == this && it.launchedBy == launchedBy && it.songVisualization == GoPreferences.getPrefsInstance().songsVisualization
+fun String?.findSorting(launchedBy: String) = RovePreferences.getPrefsInstance().sortings?.firstOrNull {
+    it.albumOrFolder == this && it.launchedBy == launchedBy && it.songVisualization == RovePreferences.getPrefsInstance().songsVisualization
 }
 
-fun Music.findSorting() = GoPreferences.getPrefsInstance().sortings?.firstOrNull {
-    it.albumOrFolder == album && it.launchedBy == launchedBy && it.songVisualization == GoPreferences.getPrefsInstance().songsVisualization
+fun Music.findSorting() = RovePreferences.getPrefsInstance().sortings?.firstOrNull {
+    it.albumOrFolder == album && it.launchedBy == launchedBy && it.songVisualization == RovePreferences.getPrefsInstance().songsVisualization
 }
 
 fun Music.findRestoreSorting(launchedBy: String): Int {

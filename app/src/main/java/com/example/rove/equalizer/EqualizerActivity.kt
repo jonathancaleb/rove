@@ -1,13 +1,13 @@
-package com.iven.musicplayergo.equalizer
+package com.example.rove.equalizer
 
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.WindowCompat
-import com.iven.musicplayergo.BaseActivity
-import com.iven.musicplayergo.databinding.ActivityEqualizerBinding
-import com.iven.musicplayergo.extensions.applyEdgeToEdge
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.BaseActivity
+import com.example.rove.databinding.ActivityEqualizerBinding
+import com.example.rove.extensions.applyEdgeToEdge
+import com.example.rove.utils.Theming
 
 
 class EqualizerActivity : BaseActivity() {

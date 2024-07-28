@@ -1,12 +1,12 @@
-package com.iven.musicplayergo
+package com.example.rove
 
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
-import com.iven.musicplayergo.preferences.ContextUtils
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.preferences.ContextUtils
+import com.example.rove.utils.Theming
 import java.util.*
 
 
@@ -22,7 +22,7 @@ abstract class BaseActivity: AppCompatActivity() {
     override fun attachBaseContext(newBase: Context?) {
         newBase?.let { ctx ->
             // Be sure that prefs are initialized
-            GoPreferences.initPrefs(newBase).locale?.run {
+            RovePreferences.initPrefs(newBase).locale?.run {
                 val locale = Locale.forLanguageTag(this)
                 val localeUpdatedContext = ContextUtils.updateLocale(ctx, locale)
                 super.attachBaseContext(localeUpdatedContext)

@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.equalizer
+package com.example.rove.equalizer
 
 import android.animation.Animator
 import android.content.res.ColorStateList
@@ -17,12 +17,12 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.FragmentEqualizerBinding
-import com.iven.musicplayergo.extensions.createCircularReveal
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.FragmentEqualizerBinding
+import com.example.rove.extensions.createCircularReveal
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.utils.Theming
 
 
 class EqualizerFragment : Fragment() {
@@ -37,7 +37,7 @@ class EqualizerFragment : Fragment() {
 
     private val mMediaPlayerHolder get() = MediaPlayerHolder.getInstance()
 
-    private val mGoPreferences get() = GoPreferences.getPrefsInstance()
+    private val mRovePreferences get() = RovePreferences.getPrefsInstance()
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -99,7 +99,7 @@ class EqualizerFragment : Fragment() {
             mSliders[slider4] = freq4
         }
 
-        mGoPreferences.savedEqualizerSettings?.let { savedEqualizerSettings ->
+        mRovePreferences.savedEqualizerSettings?.let { savedEqualizerSettings ->
             mSelectedPreset = savedEqualizerSettings.preset
         }
 
@@ -159,7 +159,7 @@ class EqualizerFragment : Fragment() {
             }
         }
 
-        if (mGoPreferences.isAnimations) {
+        if (mRovePreferences.isAnimations) {
             view.doOnLayout {
                 _eqFragmentBinding?.root?.run {
                     mEqAnimator = createCircularReveal(show = true)
@@ -205,7 +205,7 @@ class EqualizerFragment : Fragment() {
 
             if (!isPresetChanged) {
                 _eqFragmentBinding?.run {
-                    mGoPreferences.savedEqualizerSettings?.let { eqSettings ->
+                    mRovePreferences.savedEqualizerSettings?.let { eqSettings ->
                         sliderBass.value = eqSettings.bassBoost.toFloat()
                     }
                     mEqualizer?.third?.let { virtualizer ->
@@ -227,7 +227,7 @@ class EqualizerFragment : Fragment() {
 
     private fun closeEqualizerOnError() {
 
-        mGoPreferences.isEqForced = false
+        mRovePreferences.isEqForced = false
 
         //release built in equalizer
         mMediaPlayerHolder.releaseBuiltInEqualizer()

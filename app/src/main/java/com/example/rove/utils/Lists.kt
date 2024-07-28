@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.utils
+package com.example.rove.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,13 +7,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.extensions.findSorting
-import com.iven.musicplayergo.extensions.toFormattedDuration
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.models.Sorting
-import com.iven.musicplayergo.ui.UIControlInterface
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.extensions.findSorting
+import com.example.rove.extensions.toFormattedDuration
+import com.example.rove.models.Music
+import com.example.rove.models.Sorting
+import com.example.rove.ui.UIControlInterface
 import java.util.*
 
 @SuppressLint("DefaultLocale")
@@ -46,7 +46,7 @@ object Lists {
         // In real app you'd have it instantiated just once
         val filteredSongs = mutableListOf<Music>()
         val isShowDisplayName =
-            GoPreferences.getPrefsInstance().songsVisualization== GoConstants.FN
+            RovePreferences.getPrefsInstance().songsVisualization== GoConstants.FN
         return try {
             // Case insensitive search
             musicList?.iterator()?.let { iterate ->
@@ -159,7 +159,7 @@ object Lists {
     }
 
     private fun getSortedListBySelectedVisualization(list: List<Music>?) = list?.sortedBy {
-        if (GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+        if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
             it.displayName
         } else {
             it.title
@@ -183,9 +183,9 @@ object Lists {
     }
 
     fun hideItems(items: List<String>) {
-        val hiddenArtistsFolders = GoPreferences.getPrefsInstance().filters?.toMutableList()
+        val hiddenArtistsFolders = RovePreferences.getPrefsInstance().filters?.toMutableList()
         hiddenArtistsFolders?.addAll(items)
-        GoPreferences.getPrefsInstance().filters = hiddenArtistsFolders?.toSet()
+        RovePreferences.getPrefsInstance().filters = hiddenArtistsFolders?.toSet()
     }
 
     @JvmStatic
@@ -196,7 +196,7 @@ object Lists {
         playerPosition: Int,
         launchedBy: String
     ) {
-        val favorites = GoPreferences.getPrefsInstance().favorites?.toMutableList() ?: mutableListOf()
+        val favorites = RovePreferences.getPrefsInstance().favorites?.toMutableList() ?: mutableListOf()
         song?.copy(startFrom = playerPosition, launchedBy = launchedBy)?.let { savedSong ->
             if (!favorites.contains(savedSong)) {
                 favorites.add(savedSong)
@@ -217,19 +217,19 @@ object Lists {
             } else if (canRemove) {
                 favorites.remove(savedSong)
             }
-            GoPreferences.getPrefsInstance().favorites = favorites
+            RovePreferences.getPrefsInstance().favorites = favorites
         }
     }
 
     @JvmStatic
-    fun getDefSortingMode() = if (GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+    fun getDefSortingMode() = if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
         GoConstants.ASCENDING_SORTING
     } else {
         GoConstants.TRACK_SORTING
     }
 
     @JvmStatic
-    fun getUserSorting(launchedBy: String) = GoPreferences.PREFS_DETAILS_SORTING.findSorting(launchedBy)
+    fun getUserSorting(launchedBy: String) = RovePreferences.PREFS_DETAILS_SORTING.findSorting(launchedBy)
 
     @JvmStatic
     fun addToSortings(
@@ -238,7 +238,7 @@ object Lists {
         launchedBy: String,
         sorting: Int
     ) {
-        val prefs = GoPreferences.getPrefsInstance()
+        val prefs = RovePreferences.getPrefsInstance()
         val toSorting = Sorting(artistOrFolder, launchedBy, prefs.songsVisualization, sorting)
         val sortings = prefs.sortings?.toMutableList() ?: mutableListOf()
         artistOrFolder?.findSorting(launchedBy)?.let { toReplaceSorting ->

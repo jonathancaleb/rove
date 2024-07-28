@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 import android.annotation.TargetApi
 import android.app.Activity
@@ -35,15 +35,15 @@ import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.extensions.*
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.models.SavedEqualizerSettings
-import com.iven.musicplayergo.ui.MainActivity
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.extensions.*
+import com.example.rove.models.Music
+import com.example.rove.models.SavedEqualizerSettings
+import com.example.rove.ui.MainActivity
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Versioning
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
@@ -101,11 +101,11 @@ class MediaPlayerHolder:
     private var mAudioManager: AudioManager? = null
     private lateinit var mAudioFocusRequestCompat: AudioFocusRequestCompat
 
-    private val sFocusEnabled get() = GoPreferences.getPrefsInstance().isFocusEnabled
+    private val sFocusEnabled get() = RovePreferences.getPrefsInstance().isFocusEnabled
     private var mCurrentAudioFocusState = AUDIO_NO_FOCUS_NO_DUCK
     private var sHasFocus = mCurrentAudioFocusState != AUDIO_NO_FOCUS_NO_DUCK || mCurrentAudioFocusState != AUDIO_FOCUS_FAILED
 
-    private val sHasHeadsetsControl get() = GoPreferences.getPrefsInstance().isHeadsetPlugEnabled
+    private val sHasHeadsetsControl get() = RovePreferences.getPrefsInstance().isHeadsetPlugEnabled
 
     private var sRestoreVolume = false
     private var sPlayOnFocusGain = false
@@ -149,11 +149,11 @@ class MediaPlayerHolder:
     private var mPlayingSongs: List<Music>? = null
     var launchedBy = GoConstants.ARTIST_VIEW
 
-    var currentVolumeInPercent = GoPreferences.getPrefsInstance().latestVolume
-    private var currentPlaybackSpeed = GoPreferences.getPrefsInstance().latestPlaybackSpeed
+    var currentVolumeInPercent = RovePreferences.getPrefsInstance().latestVolume
+    private var currentPlaybackSpeed = RovePreferences.getPrefsInstance().latestPlaybackSpeed
 
     val playerPosition get() = when {
-        isSongFromPrefs && !isCurrentSongFM -> GoPreferences.getPrefsInstance().latestPlayedSong?.startFrom!!
+        isSongFromPrefs && !isCurrentSongFM -> RovePreferences.getPrefsInstance().latestPlayedSong?.startFrom!!
         isCurrentSongFM -> 0
         else -> mediaPlayer.currentPosition
     }
@@ -171,10 +171,10 @@ class MediaPlayerHolder:
     val isCurrentSongFM get() = currentSongFM != null
     val isCurrentSong get() = currentSong != null || isCurrentSongFM
 
-    private val sPlaybackSpeedPersisted get() = GoPreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
+    private val sPlaybackSpeedPersisted get() = RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
     var isRepeat1X = false
     var isLooping = false
-    private val continueOnEnd get() = GoPreferences.getPrefsInstance().continueOnEnd
+    private val continueOnEnd get() = RovePreferences.getPrefsInstance().continueOnEnd
 
     // isQueue saves the current song when queue starts
     var isQueue: Music? = null
@@ -290,7 +290,7 @@ class MediaPlayerHolder:
                 putString(METADATA_KEY_AUTHOR, artist)
                 putString(METADATA_KEY_COMPOSER, artist)
                 var songTitle = title
-                if (GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+                if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
                     songTitle = displayName.toFilenameWithoutExtension()
                 }
                 putString(METADATA_KEY_TITLE, songTitle)
@@ -328,7 +328,7 @@ class MediaPlayerHolder:
 
         when {
             !continueOnEnd -> {
-                GoPreferences.getPrefsInstance().hasCompletedPlayback = true
+                RovePreferences.getPrefsInstance().hasCompletedPlayback = true
                 pauseMediaPlayer()
             }
             isRepeat1X or isLooping -> if (isMediaPlayer) {
@@ -338,10 +338,10 @@ class MediaPlayerHolder:
             canRestoreQueue -> manageRestoredQueue()
             else -> {
                 if (mPlayingSongs?.findIndex(currentSong) == mPlayingSongs?.size?.minus(1)) {
-                    if (GoPreferences.getPrefsInstance().onListEnded == GoConstants.CONTINUE) {
+                    if (RovePreferences.getPrefsInstance().onListEnded == GoConstants.CONTINUE) {
                         skip(isNext = true)
                     } else {
-                        GoPreferences.getPrefsInstance().hasCompletedPlayback = true
+                        RovePreferences.getPrefsInstance().hasCompletedPlayback = true
                         pauseMediaPlayer()
                         mediaPlayerInterface.onListEnded()
                     }
@@ -437,9 +437,9 @@ class MediaPlayerHolder:
 
             if (sFocusEnabled) tryToGetAudioFocus()
 
-            val hasCompletedPlayback = GoPreferences.getPrefsInstance().hasCompletedPlayback
-            if (!continueOnEnd && isSongFromPrefs && hasCompletedPlayback || !continueOnEnd && hasCompletedPlayback || GoPreferences.getPrefsInstance().onListEnded != GoConstants.CONTINUE && hasCompletedPlayback) {
-                GoPreferences.getPrefsInstance().hasCompletedPlayback = false
+            val hasCompletedPlayback = RovePreferences.getPrefsInstance().hasCompletedPlayback
+            if (!continueOnEnd && isSongFromPrefs && hasCompletedPlayback || !continueOnEnd && hasCompletedPlayback || RovePreferences.getPrefsInstance().onListEnded != GoConstants.CONTINUE && hasCompletedPlayback) {
+                RovePreferences.getPrefsInstance().hasCompletedPlayback = false
                 skip(isNext = true)
             } else {
                 startOrChangePlaybackSpeed()
@@ -654,7 +654,7 @@ class MediaPlayerHolder:
             isLooping = false
         }
 
-        if (GoPreferences.getPrefsInstance().isPreciseVolumeEnabled) {
+        if (RovePreferences.getPrefsInstance().isPreciseVolumeEnabled) {
             setPreciseVolume(currentVolumeInPercent)
         }
 
@@ -692,7 +692,7 @@ class MediaPlayerHolder:
 
     private fun restoreCustomEqSettings() {
 
-        GoPreferences.getPrefsInstance().savedEqualizerSettings?.let {
+        RovePreferences.getPrefsInstance().savedEqualizerSettings?.let {
                 (enabled, preset, bandSettings, bassBoost, virtualizer) ->
 
             setEqualizerEnabled(isEnabled = enabled)
@@ -731,7 +731,7 @@ class MediaPlayerHolder:
                     }
                 } catch (e: Exception) {
                     Toast.makeText(activity, R.string.error_sys_eq, Toast.LENGTH_SHORT).show()
-                    GoPreferences.getPrefsInstance().isEqForced = true
+                    RovePreferences.getPrefsInstance().isEqForced = true
                     (activity as UIControlInterface).onEnableEqualizer()
                     e.printStackTrace()
                 }
@@ -740,7 +740,7 @@ class MediaPlayerHolder:
     }
 
     fun onBuiltInEqualizerEnabled() {
-        GoPreferences.getPrefsInstance().savedEqualizerSettings?.run {
+        RovePreferences.getPrefsInstance().savedEqualizerSettings?.run {
             if (enabled) initOrGetBuiltInEqualizer()
         }
     }
@@ -779,7 +779,7 @@ class MediaPlayerHolder:
 
     fun onSaveEqualizerSettings(selectedPreset: Int, bassBoost: Short, virtualizer: Short) {
         mEqualizer?.run {
-            GoPreferences.getPrefsInstance().savedEqualizerSettings = SavedEqualizerSettings(
+            RovePreferences.getPrefsInstance().savedEqualizerSettings = SavedEqualizerSettings(
                 enabled,
                 selectedPreset,
                 properties.bandLevels.toList(),
@@ -871,7 +871,7 @@ class MediaPlayerHolder:
     }
 
     fun onUpdateFavorites() {
-        if (GoPreferences.getPrefsInstance().notificationActions.first == GoConstants.FAVORITE_ACTION) {
+        if (RovePreferences.getPrefsInstance().notificationActions.first == GoConstants.FAVORITE_ACTION) {
             mPlayerService.musicNotificationManager.updateFavoriteIcon()
         }
         mediaPlayerInterface.onUpdateFavorites()
@@ -892,7 +892,7 @@ class MediaPlayerHolder:
         restoreQueueSong = null
         canRestoreQueue = false
         isQueueStarted = false
-        GoPreferences.getPrefsInstance().isQueue = null
+        RovePreferences.getPrefsInstance().isQueue = null
         if (::mediaPlayerInterface.isInitialized) {
             mediaPlayerInterface.onQueueStartedOrEnded(started = false)
         }
@@ -912,7 +912,7 @@ class MediaPlayerHolder:
     }
 
     fun fastSeek(isForward: Boolean) {
-        val step = GoPreferences.getPrefsInstance().fastSeekingStep * 1000
+        val step = RovePreferences.getPrefsInstance().fastSeekingStep * 1000
         if (isMediaPlayer) {
             with(mediaPlayer) {
                 val newPosition = if (isForward) {
@@ -974,7 +974,7 @@ class MediaPlayerHolder:
         if (isMediaPlayer) {
             currentPlaybackSpeed = speed
             if (sPlaybackSpeedPersisted) {
-                GoPreferences.getPrefsInstance().latestPlaybackSpeed = currentPlaybackSpeed
+                RovePreferences.getPrefsInstance().latestPlaybackSpeed = currentPlaybackSpeed
             }
             if (state != GoConstants.PAUSED) {
                 MediaPlayerUtils.safeSetPlaybackSpeed(mediaPlayer, currentPlaybackSpeed)

@@ -5,13 +5,13 @@ import android.content.Context
 import android.text.Spanned
 import androidx.core.text.parseAsHtml
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.extensions.toFormattedDuration
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.extensions.toFormattedDuration
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
 
 
 object Dialogs {
@@ -19,7 +19,7 @@ object Dialogs {
     @JvmStatic
     fun showClearFiltersDialog(activity: Activity) {
         val uiControlInterface = (activity as UIControlInterface)
-        if (GoPreferences.getPrefsInstance().isAskForRemoval) {
+        if (RovePreferences.getPrefsInstance().isAskForRemoval) {
             MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.filter_pref_title)
                 .setMessage(R.string.filters_clear)
@@ -37,7 +37,7 @@ object Dialogs {
     fun showClearQueueDialog(context: Context) {
 
         val mediaPlayerHolder = MediaPlayerHolder.getInstance()
-        val prefs = GoPreferences.getPrefsInstance()
+        val prefs = RovePreferences.getPrefsInstance()
         fun clearQueue() {
             prefs.isQueue = null
             prefs.queue = null
@@ -64,7 +64,7 @@ object Dialogs {
     @JvmStatic
     fun showClearFavoritesDialog(activity: Activity) {
         val uiControlInterface = activity as UIControlInterface
-        if (GoPreferences.getPrefsInstance().isAskForRemoval) {
+        if (RovePreferences.getPrefsInstance().isAskForRemoval) {
             MaterialAlertDialogBuilder(activity)
                 .setTitle(R.string.favorites)
                 .setMessage(R.string.favorites_clear)
@@ -81,7 +81,7 @@ object Dialogs {
     @JvmStatic
     fun stopPlaybackDialog(context: Context) {
         val mediaPlayerHolder = MediaPlayerHolder.getInstance()
-        if (GoPreferences.getPrefsInstance().isAskForRemoval) {
+        if (RovePreferences.getPrefsInstance().isAskForRemoval) {
             MaterialAlertDialogBuilder(context)
                 .setCancelable(false)
                 .setTitle(R.string.app_name)
@@ -105,20 +105,20 @@ object Dialogs {
             .setTitle(R.string.sorting_pref)
             .setMessage(R.string.sorting_pref_save)
             .setPositiveButton(R.string.yes) { _, _ ->
-                Lists.addToSortings(activity, GoPreferences.PREFS_DETAILS_SORTING, launchedBy, sorting)
+                Lists.addToSortings(activity, RovePreferences.PREFS_DETAILS_SORTING, launchedBy, sorting)
             }
             .setNegativeButton(R.string.no) { _, _ ->
                 Lists.addToSortings(activity, artistOrFolder, launchedBy, sorting)
             }
             .setNeutralButton(R.string.sorting_pref_reset_neutral) { _, _ ->
-                GoPreferences.getPrefsInstance().isSetDefSorting = false
+                RovePreferences.getPrefsInstance().isSetDefSorting = false
             }
             .show()
     }
 
     @JvmStatic
     fun showResetSortingsDialog(context: Context) {
-        val prefs = GoPreferences.getPrefsInstance()
+        val prefs = RovePreferences.getPrefsInstance()
         if (prefs.isAskForRemoval) {
             MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.sorting_pref)

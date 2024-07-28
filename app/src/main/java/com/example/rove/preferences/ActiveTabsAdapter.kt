@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,20 +7,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.ActiveTabItemBinding
-import com.iven.musicplayergo.extensions.updateIconTint
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.ActiveTabItemBinding
+import com.example.rove.extensions.updateIconTint
+import com.example.rove.utils.Theming
 
 
 class ActiveTabsAdapter: RecyclerView.Adapter<ActiveTabsAdapter.CheckableItemsHolder>() {
 
-    var availableItems = GoPreferences.getPrefsInstance().activeTabsDef.toMutableList()
-    private val mActiveItems = GoPreferences.getPrefsInstance().activeTabs.toMutableList()
+    var availableItems = RovePreferences.getPrefsInstance().activeTabsDef.toMutableList()
+    private val mActiveItems = RovePreferences.getPrefsInstance().activeTabs.toMutableList()
 
     fun getUpdatedItems() = availableItems.apply {
-        GoPreferences.getPrefsInstance().activeTabsDef = this
+        RovePreferences.getPrefsInstance().activeTabsDef = this
     }.minus(availableItems.minus(mActiveItems.toSet()).toSet()) /*make sure to respect tabs order*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckableItemsHolder {

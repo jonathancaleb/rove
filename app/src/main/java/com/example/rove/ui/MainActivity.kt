@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.ui
+package com.example.rove.ui
 
 import android.content.ComponentName
 import android.content.Context
@@ -28,25 +28,25 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.rove.GoConstants
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.iven.musicplayergo.*
-import com.iven.musicplayergo.databinding.MainActivityBinding
-import com.iven.musicplayergo.databinding.PlayerControlsPanelBinding
+import com.example.rove.*
+import com.example.rove.databinding.MainActivityBinding
+import com.example.rove.databinding.PlayerControlsPanelBinding
 import com.example.rove.dialogs.Dialogs
-import com.iven.musicplayergo.dialogs.NowPlaying
-import com.iven.musicplayergo.dialogs.RecyclerSheet
-import com.iven.musicplayergo.equalizer.EqualizerActivity
-import com.iven.musicplayergo.equalizer.EqualizerFragment
-import com.iven.musicplayergo.extensions.*
-import com.iven.musicplayergo.fragments.AllMusicFragment
-import com.iven.musicplayergo.fragments.DetailsFragment
-import com.iven.musicplayergo.fragments.ErrorFragment
-import com.iven.musicplayergo.fragments.MusicContainersFragment
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.player.MediaPlayerInterface
-import com.iven.musicplayergo.player.PlayerService
-import com.iven.musicplayergo.preferences.SettingsFragment
-import com.iven.musicplayergo.utils.*
+import com.example.rove.dialogs.NowPlaying
+import com.example.rove.dialogs.RecyclerSheet
+import com.example.rove.equalizer.EqualizerActivity
+import com.example.rove.equalizer.EqualizerFragment
+import com.example.rove.extensions.*
+import com.example.rove.fragments.AllMusicFragment
+import com.example.rove.fragments.DetailsFragment
+import com.example.rove.fragments.ErrorFragment
+import com.example.rove.fragments.MusicContainersFragment
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.player.MediaPlayerInterface
+import com.example.rove.player.PlayerService
+import com.example.rove.preferences.SettingsFragment
+import com.example.rove.utils.*
 
 
 class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
@@ -59,7 +59,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     private val mMusicViewModel: MusicViewModel by viewModels()
 
     // Preferences
-    private val mGoPreferences get() = GoPreferences.getPrefsInstance()
+    private val mRovePreferences get() = RovePreferences.getPrefsInstance()
 
     // Fragments
     private var mArtistsFragment: MusicContainersFragment? = null
@@ -158,7 +158,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     private fun handleBackPressed() {
         when {
-            sDetailsFragmentExpanded -> closeDetailsFragment(isAnimation = mGoPreferences.isAnimations)
+            sDetailsFragmentExpanded -> closeDetailsFragment(isAnimation = mRovePreferences.isAnimations)
             else -> if (mMainActivityBinding.viewPager2.currentItem != 0) {
                 mMainActivityBinding.viewPager2.currentItem = 0
             } else {
@@ -326,7 +326,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             mMainActivityBinding.loadingProgressBar.handleViewVisibility(show = false)
 
             // Be sure that prefs are initialized
-            GoPreferences.initPrefs(this)
+            RovePreferences.initPrefs(this)
 
             if (!sLaunchedByTile) {
 
@@ -361,7 +361,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     private fun initViewPager() {
         val pagerAdapter = ScreenSlidePagerAdapter(this)
         with(mMainActivityBinding.viewPager2) {
-            offscreenPageLimit = mGoPreferences.activeTabs.toList().size.minus(1)
+            offscreenPageLimit = mRovePreferences.activeTabs.toList().size.minus(1)
             adapter = pagerAdapter
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -392,7 +392,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             tabIconTint = ColorStateList.valueOf(alphaAccentColor)
 
             TabLayoutMediator(this, mMainActivityBinding.viewPager2) { tab, position ->
-                val selectedTab = mGoPreferences.activeTabs.toList()[position]
+                val selectedTab = mRovePreferences.activeTabs.toList()[position]
                 tab.setIcon(Theming.getTabIcon(selectedTab))
                 tab.setContentDescription(Theming.getTabAccessibilityText(selectedTab))
             }.attach()
@@ -428,7 +428,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     }
 
     private fun initFragmentAt(position: Int): Fragment {
-        when (mGoPreferences.activeTabs.toList()[position]) {
+        when (mRovePreferences.activeTabs.toList()[position]) {
             GoConstants.ARTISTS_TAB -> mArtistsFragment = MusicContainersFragment.newInstance(
                 GoConstants.ARTIST_VIEW)
             GoConstants.ALBUM_TAB -> mAlbumsFragment = MusicContainersFragment.newInstance(
@@ -441,7 +441,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         return handleOnNavigationItemSelected(position)
     }
 
-    private fun handleOnNavigationItemSelected(index: Int) = when (mGoPreferences.activeTabs.toList()[index]) {
+    private fun handleOnNavigationItemSelected(index: Int) = when (mRovePreferences.activeTabs.toList()[index]) {
         GoConstants.ARTISTS_TAB -> mArtistsFragment ?: initFragmentAt(index)
         GoConstants.ALBUM_TAB -> mAlbumsFragment ?: initFragmentAt(index)
         GoConstants.SONGS_TAB -> mAllMusicFragment ?: initFragmentAt(index)
@@ -538,7 +538,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
         with(mPlayerControlsPanelBinding.favoritesButton) {
             safeClickListener {
-                if (!mGoPreferences.favorites.isNullOrEmpty() && mFavoritesDialog == null) {
+                if (!mRovePreferences.favorites.isNullOrEmpty() && mFavoritesDialog == null) {
                     mFavoritesDialog = RecyclerSheet.newInstance(RecyclerSheet.FAV_TYPE).apply {
                         show(supportFragmentManager, RecyclerSheet.TAG_MODAL_RV)
                         onFavoritesDialogCancelled = {
@@ -550,7 +550,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                 }
             }
             setOnLongClickListener {
-                if (!mGoPreferences.favorites.isNullOrEmpty()) {
+                if (!mRovePreferences.favorites.isNullOrEmpty()) {
                     Dialogs.showClearFavoritesDialog(this@MainActivity)
                 }
                 return@setOnLongClickListener true
@@ -583,9 +583,9 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     override fun onPlaybackSpeedToggled() {
         //avoid having user stuck at selected playback speed
-        val isPlaybackPersisted = mGoPreferences.playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
+        val isPlaybackPersisted = mRovePreferences.playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
         var playbackSpeed = 1.0F
-        if (isPlaybackPersisted) playbackSpeed = mGoPreferences.latestPlaybackSpeed
+        if (isPlaybackPersisted) playbackSpeed = mRovePreferences.latestPlaybackSpeed
         mMediaPlayerHolder.setPlaybackSpeed(playbackSpeed)
     }
 
@@ -608,11 +608,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     override fun onFavoritesUpdated(clear: Boolean) {
 
-        val favorites = mGoPreferences.favorites?.toMutableList()
+        val favorites = mRovePreferences.favorites?.toMutableList()
 
         if (clear) {
             favorites?.clear()
-            mGoPreferences.favorites = null
+            mRovePreferences.favorites = null
             mFavoritesDialog?.dismissAllowingStateLoss()
         }
 
@@ -637,15 +637,15 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                 return
             }
 
-            val song = mGoPreferences.latestPlayedSong
+            val song = mRovePreferences.latestPlayedSong
             isSongFromPrefs = song != null
 
-            if (!mGoPreferences.queue.isNullOrEmpty()) {
-                queueSongs = mGoPreferences.queue?.toMutableList()!!
+            if (!mRovePreferences.queue.isNullOrEmpty()) {
+                queueSongs = mRovePreferences.queue?.toMutableList()!!
                 setQueueEnabled(enabled = true, canSkip = false)
             }
 
-            val preQueueSong = mGoPreferences.isQueue
+            val preQueueSong = mRovePreferences.isQueue
             if (preQueueSong != null) {
                 isQueue = preQueueSong
                 isQueueStarted = true
@@ -716,7 +716,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     private fun updatePlayingSongTitle(currentSong: Music) {
         var songTitle = currentSong.title
-        if (GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+        if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
             songTitle = currentSong.displayName.toFilenameWithoutExtension()
         }
         mPlayerControlsPanelBinding.playingSong.text = songTitle
@@ -733,7 +733,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     override fun onOpenPlayingArtistAlbum() {
         if (mMediaPlayerHolder.isCurrentSong) {
-            GoPreferences.getPrefsInstance().filters?.let { filters ->
+            RovePreferences.getPrefsInstance().filters?.let { filters ->
                 mMediaPlayerHolder.currentSongFM?.run {
                     if (filters.contains(artist) || filters.contains(album) || filters.contains(this.relativePath)) {
                         Toast.makeText(this@MainActivity, R.string.filters_error, Toast.LENGTH_SHORT).show()
@@ -829,7 +829,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     override fun onOpenEqualizer() {
         if (checkIsPlayer(showError = true)) {
-            if (mGoPreferences.isEqForced) {
+            if (mRovePreferences.isEqForced) {
                 val eqIntent = Intent(this, EqualizerActivity::class.java)
                 equalizerLauncher.launch(eqIntent)
             } else {
@@ -994,7 +994,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     }
 
     override fun onFiltersCleared() {
-        GoPreferences.getPrefsInstance().filters = null
+        RovePreferences.getPrefsInstance().filters = null
         Theming.applyChanges(this, mMainActivityBinding.viewPager2.currentItem)
     }
 
@@ -1083,7 +1083,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
         override fun onBackupSong() {
             if (checkIsPlayer(showError = false) && !mMediaPlayerHolder.isPlaying) {
-                mGoPreferences.latestPlayedSong =
+                mRovePreferences.latestPlayedSong =
                     mMediaPlayerHolder.currentSong?.copy(
                         startFrom = mMediaPlayerHolder.playerPosition,
                         launchedBy = mMediaPlayerHolder.launchedBy
@@ -1120,7 +1120,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     // ViewPager2 adapter class
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
-        override fun getItemCount() = mGoPreferences.activeTabs.toList().size
+        override fun getItemCount() = mRovePreferences.activeTabs.toList().size
         override fun createFragment(position: Int): Fragment = handleOnNavigationItemSelected(position)
     }
 }

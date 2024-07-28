@@ -1,6 +1,6 @@
-package com.iven.musicplayergo.ui
+package com.example.rove.ui
 
-import com.iven.musicplayergo.models.Music
+import com.example.rove.models.Music
 
 interface MediaControlInterface {
     fun onSongSelected(song: Music?, songs: List<Music>?, songLaunchedBy: String)

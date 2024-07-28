@@ -1,4 +1,4 @@
-package com.iven.musicplayergo
+package com.example.rove
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
@@ -6,14 +6,13 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.request.CachePolicy
 import com.example.rove.utils.Theming
-import com.iven.musicplayergo.utils.Theming
 
 
 class GoApp : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
-        GoPreferences.initPrefs(applicationContext)
+        RovePreferences.initPrefs(applicationContext)
         AppCompatDelegate.setDefaultNightMode(Theming.getDefaultNightMode(applicationContext))
     }
 

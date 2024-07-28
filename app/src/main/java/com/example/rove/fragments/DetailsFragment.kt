@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.fragments
+package com.example.rove.fragments
 
 import android.animation.Animator
 import android.annotation.SuppressLint
@@ -22,23 +22,23 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.MusicViewModel
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.AlbumItemBinding
-import com.iven.musicplayergo.databinding.FragmentDetailsBinding
-import com.iven.musicplayergo.databinding.GenericItemBinding
+import com.example.rove.RovePreferences
+import com.example.rove.MusicViewModel
+import com.example.rove.R
+import com.example.rove.databinding.AlbumItemBinding
+import com.example.rove.databinding.FragmentDetailsBinding
+import com.example.rove.databinding.GenericItemBinding
 import com.example.rove.dialogs.Dialogs
-import com.iven.musicplayergo.extensions.*
-import com.iven.musicplayergo.models.Album
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.ItemSwipeCallback
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Popups
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.extensions.*
+import com.example.rove.models.Album
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.ItemSwipeCallback
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Popups
+import com.example.rove.utils.Theming
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 
@@ -76,7 +76,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mSortMenuItem: MenuItem
     private var mSongsSorting = Lists.getDefSortingMode()
 
-    private val sShowDisplayName get() = GoPreferences.getPrefsInstance().songsVisualization == GoConstants.FN
+    private val sShowDisplayName get() = RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN
 
     private var sPlayFirstSong = true
     private var sCanUpdateSongs = false
@@ -247,7 +247,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
                     } else {
                         Lists.getSongsSorting(mSongsSorting)
                     }
-                    if (Lists.getUserSorting(mLaunchedBy) == null && GoPreferences.getPrefsInstance().isSetDefSorting) {
+                    if (Lists.getUserSorting(mLaunchedBy) == null && RovePreferences.getPrefsInstance().isSetDefSorting) {
                         Dialogs.showSaveSortingDialog(requireActivity(), mSelectedAlbum?.title, mLaunchedBy, mSongsSorting)
                     } else {
                         Lists.addToSortings(requireActivity(), mSelectedAlbum?.title, mLaunchedBy, mSongsSorting)
@@ -345,7 +345,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         view.doOnLayout {
-            if (GoPreferences.getPrefsInstance().isAnimations) {
+            if (RovePreferences.getPrefsInstance().isAnimations) {
                 _detailsFragmentBinding?.root?.run {
                     mArtistDetailsAnimator = createCircularReveal(show = true)
                 }
@@ -517,7 +517,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
             }
         }
 
-        if (Lists.getUserSorting(mLaunchedBy) == null && GoPreferences.getPrefsInstance().isSetDefSorting) {
+        if (Lists.getUserSorting(mLaunchedBy) == null && RovePreferences.getPrefsInstance().isSetDefSorting) {
             Dialogs.showSaveSortingDialog(requireActivity(), mSelectedArtistOrFolder, mLaunchedBy, mSongsSorting)
         } else {
             Lists.addToSortings(requireActivity(), mSelectedArtistOrFolder, mLaunchedBy, mSongsSorting)

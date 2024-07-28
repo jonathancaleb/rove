@@ -3,10 +3,10 @@ package com.example.rove
 import android.content.Context
 import android.preference.PreferenceManager
 import androidx.core.content.edit
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.models.NotificationAction
-import com.iven.musicplayergo.models.SavedEqualizerSettings
-import com.iven.musicplayergo.models.Sorting
+import com.example.rove.models.Music
+import com.example.rove.models.NotificationAction
+import com.example.rove.models.SavedEqualizerSettings
+import com.example.rove.models.Sorting
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import java.lang.reflect.Type
@@ -217,7 +217,7 @@ class RovePreferences(context: Context) {
 
         const val PREFS_DETAILS_SORTING = "details_sorting_pref"
 
-        // Singleton prevents multiple instances of GoPreferences opening at the
+        // Singleton prevents multiple instances of RovePreferences opening at the
         // same time.
         @Volatile
         private var INSTANCE: RovePreferences? = null

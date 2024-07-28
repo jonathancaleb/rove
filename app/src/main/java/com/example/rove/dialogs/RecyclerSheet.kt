@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.dialogs
+package com.example.rove.dialogs
 
 
 import android.content.Context
@@ -13,23 +13,24 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rove.dialogs.Dialogs
+import com.example.rove.dialogs.FavoritesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.ModalRvBinding
-import com.iven.musicplayergo.databinding.SleeptimerItemBinding
-import com.iven.musicplayergo.extensions.*
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.preferences.AccentsAdapter
-import com.iven.musicplayergo.preferences.ActiveTabsAdapter
-import com.iven.musicplayergo.preferences.FiltersAdapter
-import com.iven.musicplayergo.preferences.NotificationActionsAdapter
-import com.iven.musicplayergo.ui.ItemSwipeCallback
-import com.iven.musicplayergo.ui.ItemTouchCallback
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.ModalRvBinding
+import com.example.rove.databinding.SleeptimerItemBinding
+import com.example.rove.extensions.*
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.preferences.AccentsAdapter
+import com.example.rove.preferences.ActiveTabsAdapter
+import com.example.rove.preferences.FiltersAdapter
+import com.example.rove.preferences.NotificationActionsAdapter
+import com.example.rove.ui.ItemSwipeCallback
+import com.example.rove.ui.ItemTouchCallback
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Theming
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 
@@ -51,7 +52,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
 
     private val mMediaPlayerHolder get() = MediaPlayerHolder.getInstance()
 
-    private val mGoPreferences get() = GoPreferences.getPrefsInstance()
+    private val mRovePreferences get() = RovePreferences.getPrefsInstance()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -112,7 +113,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                     modalRv.setHasFixedSize(true)
 
                     modalRv.post {
-                        layoutManager.scrollToPositionWithOffset(mGoPreferences.accent, 0)
+                        layoutManager.scrollToPositionWithOffset(mRovePreferences.accent, 0)
                     }
 
                     // set listeners for buttons
@@ -120,7 +121,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                         dismiss()
                     }
                     btnPositive.setOnClickListener {
-                        mGoPreferences.accent = accentsAdapter.selectedAccent
+                        mRovePreferences.accent = accentsAdapter.selectedAccent
                         mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
                     }
                 }
@@ -143,8 +144,8 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                     }
                     btnPositive.setOnClickListener {
                         val updatedItems = activeTabsAdapter.getUpdatedItems()
-                        updatedItems.takeIf { it != mGoPreferences.activeTabs}?.let { updatedList ->
-                            mGoPreferences.activeTabs = updatedList
+                        updatedItems.takeIf { it != mRovePreferences.activeTabs}?.let { updatedList ->
+                            mRovePreferences.activeTabs = updatedList
                             mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
                             return@setOnClickListener
                         }
@@ -173,8 +174,8 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                     }
                     btnPositive.setOnClickListener {
                         val updatedItems = filtersAdapter.getUpdatedItems()
-                        updatedItems.takeIf { it != mGoPreferences.filters}?.let { updatedList ->
-                            mGoPreferences.filters = updatedList
+                        updatedItems.takeIf { it != mRovePreferences.filters}?.let { updatedList ->
+                            mRovePreferences.filters = updatedList
                             mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
                             return@setOnClickListener
                         }
@@ -344,7 +345,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                         val index = viewHolder.absoluteAdapterPosition
                         favoritesAdapter.notifyItemChanged(index)
                         if (direction == ItemTouchHelper.RIGHT) {
-                            mMediaControlInterface.onAddToQueue(mGoPreferences.favorites?.get(index))
+                            mMediaControlInterface.onAddToQueue(mRovePreferences.favorites?.get(index))
                             return@ItemSwipeCallback
                         }
                         favoritesAdapter.performFavoriteDeletion(requireActivity(), index)

@@ -1,13 +1,13 @@
-package com.iven.musicplayergo.utils
+package com.example.rove.utils
 
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.extensions.toFormattedYear
-import com.iven.musicplayergo.models.Album
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.UIControlInterface
+import com.example.rove.RovePreferences
+import com.example.rove.extensions.toFormattedYear
+import com.example.rove.models.Album
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.UIControlInterface
 
 
 object MusicUtils {
@@ -108,19 +108,19 @@ object MusicUtils {
 
         fun selectNewSong(filter: Set<String>): Music? {
             if (musicListContains(currentSong, filter)) {
-                GoPreferences.getPrefsInstance().latestPlayedSong = randomMusic
+                RovePreferences.getPrefsInstance().latestPlayedSong = randomMusic
                 return randomMusic
             }
             return null
         }
 
-        GoPreferences.getPrefsInstance().filters?.let { ft ->
-            GoPreferences.getPrefsInstance().favorites?.toMutableList()?.let { fav ->
+        RovePreferences.getPrefsInstance().filters?.let { ft ->
+            RovePreferences.getPrefsInstance().favorites?.toMutableList()?.let { fav ->
                 val songs = fav.filter { favFt ->
                     musicListContains(favFt, ft)
                 }
                 fav.removeAll(songs.toSet())
-                GoPreferences.getPrefsInstance().favorites = fav
+                RovePreferences.getPrefsInstance().favorites = fav
                 if (fav.isEmpty()) {
                     uiControlInterface.onFavoritesUpdated(clear = true)
                 }

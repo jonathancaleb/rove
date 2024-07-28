@@ -7,9 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.rove.models.Album
 import com.example.rove.models.Music
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.utils.MusicUtils
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.utils.MusicUtils
+import com.example.rove.utils.Versioning
 import kotlinx.coroutines.*
 import java.io.File
 import kotlin.random.Random
@@ -211,14 +210,14 @@ class MusicViewModel(application: Application): AndroidViewModel(application) {
             mDeviceMusicList.distinctBy { it.artist to it.year to it.track to it.title to it.duration to it.album }
                 .toMutableList()
 
-        GoPreferences.getPrefsInstance().filters?.let { filter ->
+        RovePreferences.getPrefsInstance().filters?.let { filter ->
             deviceMusicFiltered =  deviceMusicFiltered?.filter { music ->
                 !filter.contains(music.artist) and !filter.contains(music.album) and !filter.contains(music.relativePath)
             }?.toMutableList()
         }
 
         deviceMusicFiltered?.let { dsf ->
-            dsf.filterNot { GoPreferences.getPrefsInstance().filters?.contains(it.artist)!!}
+            dsf.filterNot { RovePreferences.getPrefsInstance().filters?.contains(it.artist)!!}
             // group music by artist
             deviceSongsByArtist = dsf.groupBy { it.artist }
             deviceMusicByAlbum = dsf.groupBy { it.album }
@@ -243,7 +242,7 @@ class MusicViewModel(application: Application): AndroidViewModel(application) {
         // update queue/favorites by updating moved songs id, albumId
         // and filtering out deleted songs
 
-        val prefs = GoPreferences.getPrefsInstance()
+        val prefs = RovePreferences.getPrefsInstance()
 
         deviceMusicFiltered?.let { deviceMusic ->
 

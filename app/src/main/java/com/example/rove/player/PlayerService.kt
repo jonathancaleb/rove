@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 import android.app.PendingIntent
 import android.app.Service
@@ -13,9 +13,9 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Versioning
+import com.example.rove.RovePreferences
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Versioning
 
 
 private const val WAKELOCK_MILLI: Long = 25000
@@ -101,7 +101,7 @@ class PlayerService : Service() {
         if (mMediaPlayerHolder.isCurrentSong && mMediaPlayerHolder.currentSongFM == null) {
 
             // Saves last played song and its position if user is ok :)
-            val prefs = GoPreferences.getPrefsInstance()
+            val prefs = RovePreferences.getPrefsInstance()
             with(mMediaPlayerHolder) {
                 if (queueSongs.isNotEmpty()) prefs.queue = queueSongs
                 prefs.latestPlayedSong = currentSong?.copy(startFrom = playerPosition, launchedBy = launchedBy)

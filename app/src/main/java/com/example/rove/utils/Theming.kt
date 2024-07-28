@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.utils
+package com.example.rove.utils
 
 
 import android.app.Activity
@@ -14,11 +14,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.extensions.setIconTint
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MainActivity
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.extensions.setIconTint
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MainActivity
 
 
 object Theming {
@@ -35,7 +35,7 @@ object Theming {
     }
 
     @JvmStatic
-    fun getDefaultNightMode(context: Context) = when (GoPreferences.getPrefsInstance().theme) {
+    fun getDefaultNightMode(context: Context) = when (RovePreferences.getPrefsInstance().theme) {
         context.getString(R.string.theme_pref_light) -> AppCompatDelegate.MODE_NIGHT_NO
         context.getString(R.string.theme_pref_dark) -> AppCompatDelegate.MODE_NIGHT_YES
         else -> if (Versioning.isQ()) {
@@ -53,7 +53,7 @@ object Theming {
 
     @JvmStatic
     fun isThemeBlack(resources: Resources) =
-        isThemeNight(resources) && GoPreferences.getPrefsInstance().isBlackTheme
+        isThemeNight(resources) && RovePreferences.getPrefsInstance().isBlackTheme
 
     fun getSortIconForSongs(sort: Int): Int {
         return when (sort) {
@@ -129,7 +129,7 @@ object Theming {
 
     @JvmStatic
     fun resolveTheme(context: Context): Int {
-        val position = GoPreferences.getPrefsInstance().accent
+        val position = RovePreferences.getPrefsInstance().accent
         if (isThemeBlack(context.resources)) return stylesBlack[position]
         return styles[position]
     }
@@ -137,7 +137,7 @@ object Theming {
     @ColorInt
     @JvmStatic
     fun resolveThemeColor(resources: Resources): Int {
-        val position = GoPreferences.getPrefsInstance().accent
+        val position = RovePreferences.getPrefsInstance().accent
         val colors = resources.getIntArray(R.array.colors)
         return colors[position]
     }
@@ -253,7 +253,7 @@ object Theming {
     @JvmStatic
     fun getFavoriteIcon(isNotification: Boolean): Int {
         val mediaPlayerHolder = MediaPlayerHolder.getInstance()
-        val favorites = GoPreferences.getPrefsInstance().favorites
+        val favorites = RovePreferences.getPrefsInstance().favorites
         val isFavorite = favorites != null && favorites.contains(
             mediaPlayerHolder.currentSong?.copy(startFrom = 0, launchedBy = mediaPlayerHolder.launchedBy))
         return if (isFavorite) {
@@ -278,7 +278,7 @@ object Theming {
 
     @JvmStatic
     fun getOrientation(): Int {
-        if (GoPreferences.getPrefsInstance().lockRotation) {
+        if (RovePreferences.getPrefsInstance().lockRotation) {
             return ActivityInfo.SCREEN_ORIENTATION_LOCKED
         }
         return ActivityInfo.SCREEN_ORIENTATION_FULL_USER

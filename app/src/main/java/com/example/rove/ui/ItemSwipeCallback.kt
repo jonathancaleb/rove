@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.ui
+package com.example.rove.ui
 
 import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.R
+import com.example.rove.utils.Theming
 
 
 class ItemSwipeCallback(private val isQueueDialog: Boolean, private val isFavoritesDialog: Boolean, private val onSwipedAction: (viewHolder: RecyclerView.ViewHolder, direction: Int) -> Unit): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {

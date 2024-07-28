@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.fragments
+package com.example.rove.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,22 +12,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.MusicViewModel
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.FragmentAllMusicBinding
-import com.iven.musicplayergo.databinding.MusicItemBinding
-import com.iven.musicplayergo.extensions.setTitleColor
-import com.iven.musicplayergo.extensions.toFormattedDate
-import com.iven.musicplayergo.extensions.toFormattedDuration
-import com.iven.musicplayergo.extensions.toName
-import com.iven.musicplayergo.models.Music
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Popups
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.MusicViewModel
+import com.example.rove.R
+import com.example.rove.databinding.FragmentAllMusicBinding
+import com.example.rove.databinding.MusicItemBinding
+import com.example.rove.extensions.setTitleColor
+import com.example.rove.extensions.toFormattedDate
+import com.example.rove.extensions.toFormattedDuration
+import com.example.rove.extensions.toName
+import com.example.rove.models.Music
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Popups
+import com.example.rove.utils.Theming
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import me.zhanghai.android.fastscroll.PopupTextProvider
 
@@ -48,11 +48,11 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // sorting
     private lateinit var mSortMenuItem: MenuItem
-    private var mSorting = GoPreferences.getPrefsInstance().allMusicSorting
+    private var mSorting = RovePreferences.getPrefsInstance().allMusicSorting
 
     private var mAllMusic: List<Music>? = null
 
-    private val sIsFastScrollerPopup get() = (mSorting == GoConstants.ASCENDING_SORTING || mSorting == GoConstants.DESCENDING_SORTING) && GoPreferences.getPrefsInstance().songsVisualization != GoConstants.FN
+    private val sIsFastScrollerPopup get() = (mSorting == GoConstants.ASCENDING_SORTING || mSorting == GoConstants.DESCENDING_SORTING) && RovePreferences.getPrefsInstance().songsVisualization != GoConstants.FN
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -182,7 +182,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
                     setTitleColor(Theming.resolveThemeColor(resources))
                 }
 
-                GoPreferences.getPrefsInstance().allMusicSorting = mSorting
+                RovePreferences.getPrefsInstance().allMusicSorting = mSorting
 
             } else if (it.itemId != R.id.action_search) {
                 mUIControlInterface.onOpenSleepTimerDialog()

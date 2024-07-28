@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.ui
+package com.example.rove.ui
 
 import kotlin.math.abs
 

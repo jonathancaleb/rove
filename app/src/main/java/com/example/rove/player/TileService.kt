@@ -1,11 +1,11 @@
-package com.iven.musicplayergo.player
+package com.example.rove.player
 
 import android.content.Intent
 import android.os.Build
 import android.service.quicksettings.TileService
 import androidx.annotation.RequiresApi
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.ui.MainActivity
+import com.example.rove.ui.MainActivity
 
 @RequiresApi(Build.VERSION_CODES.N)
 class PlayerTileService : TileService() {

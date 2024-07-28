@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.graphics.ColorUtils
 import androidx.recyclerview.widget.RecyclerView
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.AccentItemBinding
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.R
+import com.example.rove.databinding.AccentItemBinding
+import com.example.rove.utils.Theming
 
 
 class AccentsAdapter(private val accents: IntArray):
     RecyclerView.Adapter<AccentsAdapter.AccentsHolder>() {
 
-    var selectedAccent = GoPreferences.getPrefsInstance().accent
+    var selectedAccent = RovePreferences.getPrefsInstance().accent
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AccentsHolder {
         val binding = AccentItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

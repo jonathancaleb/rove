@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.fragments
+package com.example.rove.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,20 +11,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.MusicViewModel
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.FragmentMusicContainersBinding
-import com.iven.musicplayergo.databinding.GenericItemBinding
-import com.iven.musicplayergo.extensions.handleViewVisibility
-import com.iven.musicplayergo.extensions.loadWithError
-import com.iven.musicplayergo.extensions.setTitleColor
-import com.iven.musicplayergo.extensions.waitForCover
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Lists
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.RovePreferences
+import com.example.rove.MusicViewModel
+import com.example.rove.R
+import com.example.rove.databinding.FragmentMusicContainersBinding
+import com.example.rove.databinding.GenericItemBinding
+import com.example.rove.extensions.handleViewVisibility
+import com.example.rove.extensions.loadWithError
+import com.example.rove.extensions.setTitleColor
+import com.example.rove.extensions.waitForCover
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Lists
+import com.example.rove.utils.Theming
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 import me.zhanghai.android.fastscroll.PopupTextProvider
 
@@ -174,11 +174,11 @@ class MusicContainersFragment : Fragment(),
     private fun getSortingMethodFromPrefs(): Int {
         return when (mLaunchedBy) {
             GoConstants.ARTIST_VIEW ->
-                GoPreferences.getPrefsInstance().artistsSorting
+                RovePreferences.getPrefsInstance().artistsSorting
             GoConstants.FOLDER_VIEW ->
-                GoPreferences.getPrefsInstance().foldersSorting
+                RovePreferences.getPrefsInstance().foldersSorting
             else ->
-                GoPreferences.getPrefsInstance().albumsSorting
+                RovePreferences.getPrefsInstance().albumsSorting
         }
     }
 
@@ -240,7 +240,7 @@ class MusicContainersFragment : Fragment(),
     }
 
     private fun saveSortingMethodToPrefs(sortingMethod: Int) {
-        with(GoPreferences.getPrefsInstance()) {
+        with(RovePreferences.getPrefsInstance()) {
             when (mLaunchedBy) {
                 GoConstants.ARTIST_VIEW -> artistsSorting = sortingMethod
                 GoConstants.FOLDER_VIEW -> foldersSorting = sortingMethod

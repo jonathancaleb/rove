@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.fragments
+package com.example.rove.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.rove.GoConstants
-import com.iven.musicplayergo.R
-import com.iven.musicplayergo.databinding.FragmentErrorBinding
-import com.iven.musicplayergo.ui.UIControlInterface
+import com.example.rove.R
+import com.example.rove.databinding.FragmentErrorBinding
+import com.example.rove.ui.UIControlInterface
 
 /**
  * A simple [Fragment] subclass.

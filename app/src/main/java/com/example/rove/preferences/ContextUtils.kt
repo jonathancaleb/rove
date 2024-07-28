@@ -1,11 +1,11 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
-import com.iven.musicplayergo.R
+import com.example.rove.R
 import java.util.*
 
 // https://medium.com/swlh/android-app-specific-language-change-programmatically-using-kotlin-d650a5392220

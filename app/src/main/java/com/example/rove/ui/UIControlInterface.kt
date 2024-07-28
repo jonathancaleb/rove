@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.ui
+package com.example.rove.ui
 
 interface UIControlInterface {
     fun onAppearanceChanged(isThemeChanged: Boolean)

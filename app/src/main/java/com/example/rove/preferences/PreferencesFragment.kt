@@ -1,4 +1,4 @@
-package com.iven.musicplayergo.preferences
+package com.example.rove.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,14 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.iven.musicplayergo.GoPreferences
-import com.iven.musicplayergo.R
+import com.example.rove.RovePreferences
+import com.example.rove.R
 import com.example.rove.dialogs.Dialogs
-import com.iven.musicplayergo.dialogs.RecyclerSheet
-import com.iven.musicplayergo.player.MediaPlayerHolder
-import com.iven.musicplayergo.ui.MediaControlInterface
-import com.iven.musicplayergo.ui.UIControlInterface
-import com.iven.musicplayergo.utils.Theming
+import com.example.rove.dialogs.RecyclerSheet
+import com.example.rove.player.MediaPlayerHolder
+import com.example.rove.ui.MediaControlInterface
+import com.example.rove.ui.UIControlInterface
+import com.example.rove.utils.Theming
 
 
 class PreferencesFragment : PreferenceFragmentCompat(),
@@ -26,7 +26,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     private lateinit var mMediaControlInterface: MediaControlInterface
 
     private val mMediaPlayerHolder get() = MediaPlayerHolder.getInstance()
-    private val mGoPreferences get() = GoPreferences.getPrefsInstance()
+    private val mRovePreferences get() = RovePreferences.getPrefsInstance()
 
     override fun setDivider(divider: Drawable?) {
         super.setDivider(null)
@@ -67,31 +67,31 @@ class PreferencesFragment : PreferenceFragmentCompat(),
         findPreference<Preference>(getString(R.string.theme_pref_black))?.isVisible = Theming.isThemeNight(resources)
 
         findPreference<Preference>(getString(R.string.accent_pref))?.run {
-            summary = Theming.getAccentName(resources, mGoPreferences.accent)
+            summary = Theming.getAccentName(resources, mRovePreferences.accent)
             onPreferenceClickListener = this@PreferencesFragment
         }
 
         findPreference<Preference>(getString(R.string.filter_pref))?.onPreferenceClickListener = this@PreferencesFragment
 
         findPreference<Preference>(getString(R.string.active_tabs_pref))?.run {
-            summary = mGoPreferences.activeTabs.size.toString()
+            summary = mRovePreferences.activeTabs.size.toString()
             onPreferenceClickListener = this@PreferencesFragment
         }
 
         findPreference<Preference>(getString(R.string.notif_actions_pref))?.run {
-            summary = getString(Theming.getNotificationActionTitle(mGoPreferences.notificationActions.first))
+            summary = getString(Theming.getNotificationActionTitle(mRovePreferences.notificationActions.first))
             onPreferenceClickListener = this@PreferencesFragment
         }
 
         findPreference<Preference>(getString(R.string.filter_pref))?.run {
-            GoPreferences.getPrefsInstance().filters?.let { ft ->
+            RovePreferences.getPrefsInstance().filters?.let { ft ->
                 summary = ft.size.toString()
                 isEnabled = ft.isNotEmpty()
             }
         }
 
         findPreference<Preference>(getString(R.string.reset_sortings_pref))?.run {
-            isEnabled = mGoPreferences.sortings != null && mGoPreferences.sortings?.isNotEmpty()!!
+            isEnabled = mRovePreferences.sortings != null && mRovePreferences.sortings?.isNotEmpty()!!
             onPreferenceClickListener = this@PreferencesFragment
         }
     }
@@ -106,7 +106,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
                 .show(requireActivity().supportFragmentManager, RecyclerSheet.TAG_MODAL_RV)
             getString(R.string.active_tabs_pref) -> RecyclerSheet.newInstance(RecyclerSheet.TABS_TYPE)
                 .show(requireActivity().supportFragmentManager, RecyclerSheet.TAG_MODAL_RV)
-            getString(R.string.filter_pref) -> if (!mGoPreferences.filters.isNullOrEmpty()) {
+            getString(R.string.filter_pref) -> if (!mRovePreferences.filters.isNullOrEmpty()) {
                 RecyclerSheet.newInstance(RecyclerSheet.FILTERS_TYPE)
                     .show(requireActivity().supportFragmentManager, RecyclerSheet.TAG_MODAL_RV)
             }
@@ -120,23 +120,23 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             getString(R.string.precise_volume_pref) -> with(mMediaPlayerHolder) {
-                setPreciseVolume(if (!mGoPreferences.isPreciseVolumeEnabled) {
-                    mGoPreferences.latestVolume = currentVolumeInPercent
+                setPreciseVolume(if (!mRovePreferences.isPreciseVolumeEnabled) {
+                    mRovePreferences.latestVolume = currentVolumeInPercent
                     100
                 } else {
-                    mGoPreferences.latestVolume
+                    mRovePreferences.latestVolume
                 })
             }
             getString(R.string.playback_vel_pref) -> mMediaControlInterface.onPlaybackSpeedToggled()
             getString(R.string.theme_pref) -> mUIControlInterface.onAppearanceChanged(isThemeChanged = true)
             getString(R.string.theme_pref_black) -> mUIControlInterface.onAppearanceChanged(isThemeChanged = false)
-            getString(R.string.eq_pref) -> if (mGoPreferences.isEqForced) {
+            getString(R.string.eq_pref) -> if (mRovePreferences.isEqForced) {
                 mMediaPlayerHolder.onBuiltInEqualizerEnabled()
             } else {
                 mMediaPlayerHolder.releaseBuiltInEqualizer()
             }
             getString(R.string.focus_pref) -> with(mMediaPlayerHolder) {
-                if (mGoPreferences.isFocusEnabled) {
+                if (mRovePreferences.isFocusEnabled) {
                     tryToGetAudioFocus()
                     return
                 }
@@ -145,13 +145,13 @@ class PreferencesFragment : PreferenceFragmentCompat(),
             getString(R.string.covers_pref) -> mMediaControlInterface.onHandleCoverOptionsUpdate()
             getString(R.string.notif_actions_pref) ->
                 findPreference<Preference>(getString(R.string.notif_actions_pref))?.summary =
-                    getString(Theming.getNotificationActionTitle(mGoPreferences.notificationActions.first))
+                    getString(Theming.getNotificationActionTitle(mRovePreferences.notificationActions.first))
             getString(R.string.song_visual_pref) -> {
                 mMediaPlayerHolder.updateMediaSessionMetaData()
                 mMediaControlInterface.onUpdatePlayingAlbumSongs(null)
             }
             getString(R.string.rotation_pref) -> requireActivity().requestedOrientation = Theming.getOrientation()
-            GoPreferences.PREFS_DETAILS_SORTING -> {
+            RovePreferences.PREFS_DETAILS_SORTING -> {
                 updateResetSortingsOption()
                 mMediaPlayerHolder.updateMediaSessionMetaData()
                 mMediaControlInterface.onUpdatePlayingAlbumSongs(null)
@@ -160,7 +160,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
     }
 
     fun enableEqualizerOption() {
-        val eqEnabled = mGoPreferences.isEqForced
+        val eqEnabled = mRovePreferences.isEqForced
         findPreference<SwitchPreferenceCompat>(getString(R.string.eq_pref))?.run {
             isChecked = eqEnabled
             isEnabled = eqEnabled
@@ -174,7 +174,7 @@ class PreferencesFragment : PreferenceFragmentCompat(),
 
     fun updateResetSortingsOption() {
         findPreference<Preference>(getString(R.string.reset_sortings_pref))?.run {
-            isEnabled = mGoPreferences.sortings != null && mGoPreferences.sortings?.isNotEmpty()!!
+            isEnabled = mRovePreferences.sortings != null && mRovePreferences.sortings?.isNotEmpty()!!
         }
     }
 
