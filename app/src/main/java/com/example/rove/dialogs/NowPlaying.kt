@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.databinding.NowPlayingBinding
@@ -279,7 +279,7 @@ class NowPlaying: BottomSheetDialogFragment() {
                                 mph.onPauseSeekBarCallback()
                                 isUserSeeking = false
                             }
-                            if (mph.state != GoConstants.PLAYING) {
+                            if (mph.state != RoveConstants.PLAYING) {
                                 mMediaControlInterface.onUpdatePositionFromNP(userSelectedPosition)
                                 npSeekBar.progress = userSelectedPosition
                             }
@@ -372,7 +372,7 @@ class NowPlaying: BottomSheetDialogFragment() {
                     }
                     // load album/song info
                     var songTitle = song.title
-                    if (mRovePreferences.songsVisualization == GoConstants.FN) {
+                    if (mRovePreferences.songsVisualization == RoveConstants.FN) {
                         songTitle = song.displayName.toFilenameWithoutExtension()
                     }
                     _nowPlayingBinding?.npSong?.text = songTitle

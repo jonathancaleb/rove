@@ -14,7 +14,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil.Coil
 import coil.request.ImageRequest
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.MusicViewModel
 import com.example.rove.R
@@ -185,7 +185,7 @@ fun List<Music>.findIndex(song: Music?) = indexOfFirst {
 }
 
 fun Music?.toName(): String? {
-    if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+    if (RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN) {
         return this?.displayName?.toFilenameWithoutExtension()
     }
     return this?.title
@@ -201,19 +201,19 @@ fun Music.findSorting() = RovePreferences.getPrefsInstance().sortings?.firstOrNu
 
 fun Music.findRestoreSorting(launchedBy: String): Int {
     val sorting = when (launchedBy) {
-        GoConstants.ARTIST_VIEW -> findSorting()
-        GoConstants.FOLDER_VIEW -> relativePath?.findSorting(GoConstants.FOLDER_VIEW)
-        else -> album?.findSorting(GoConstants.ALBUM_VIEW)
+        RoveConstants.ARTIST_VIEW -> findSorting()
+        RoveConstants.FOLDER_VIEW -> relativePath?.findSorting(RoveConstants.FOLDER_VIEW)
+        else -> album?.findSorting(RoveConstants.ALBUM_VIEW)
     }
     return sorting?.sorting ?: Lists.getUserSorting(launchedBy)?.sorting ?: Lists.getDefSortingMode()
 }
 
 fun Music.findRestoreSongs(sorting: Int, musicViewModel: MusicViewModel) = when (launchedBy) {
-    GoConstants.ARTIST_VIEW -> {
+    RoveConstants.ARTIST_VIEW -> {
         val songs = MusicUtils.getAlbumSongs(artist, album, musicViewModel.deviceAlbumsByArtist)
         Lists.getSortedMusicList(sorting, songs)
     }
-    GoConstants.FOLDER_VIEW -> Lists.getSortedMusicListForFolder(
+    RoveConstants.FOLDER_VIEW -> Lists.getSortedMusicListForFolder(
         sorting,
         musicViewModel.deviceMusicByFolder?.get(relativePath)
     )

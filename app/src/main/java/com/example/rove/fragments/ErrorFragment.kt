@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.R
 import com.example.rove.databinding.FragmentErrorBinding
 import com.example.rove.ui.UIControlInterface
@@ -32,15 +32,15 @@ class ErrorFragment : Fragment() {
         arguments?.getString(TAG_ERROR)?.let { errorType ->
 
              when (errorType) {
-                GoConstants.TAG_NO_MUSIC -> {
+                RoveConstants.TAG_NO_MUSIC -> {
                     mErrorIcon = R.drawable.ic_music_off
                     mErrorString = R.string.error_no_music
                 }
-                GoConstants.TAG_NO_MUSIC_INTENT -> {
+                RoveConstants.TAG_NO_MUSIC_INTENT -> {
                     mErrorIcon = R.drawable.ic_mood_bad
                     mErrorString = R.string.error_unknown_unsupported
                 }
-                GoConstants.TAG_SD_NOT_READY -> {
+                RoveConstants.TAG_SD_NOT_READY -> {
                     mErrorIcon = R.drawable.ic_mood_bad
                     mErrorString = R.string.error_not_ready
                 }

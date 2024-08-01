@@ -11,7 +11,7 @@ import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.MusicViewModel
 import com.example.rove.R
@@ -52,7 +52,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private var mAllMusic: List<Music>? = null
 
-    private val sIsFastScrollerPopup get() = (mSorting == GoConstants.ASCENDING_SORTING || mSorting == GoConstants.DESCENDING_SORTING) && RovePreferences.getPrefsInstance().songsVisualization != GoConstants.FN
+    private val sIsFastScrollerPopup get() = (mSorting == RoveConstants.ASCENDING_SORTING || mSorting == RoveConstants.DESCENDING_SORTING) && RovePreferences.getPrefsInstance().songsVisualization != RoveConstants.FN
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -119,7 +119,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
             shuffleFab.setOnClickListener {
                 mMediaControlInterface.onSongsShuffled(
                     mAllMusic,
-                    GoConstants.ARTIST_VIEW
+                    RoveConstants.ARTIST_VIEW
                 )
             }
 
@@ -258,7 +258,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
                         mMediaControlInterface.onSongSelected(
                             itemSong,
                             mAllMusic,
-                            GoConstants.ARTIST_VIEW
+                            RoveConstants.ARTIST_VIEW
                         )
                     }
 
@@ -268,7 +268,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
                             requireActivity(),
                             vh?.itemView,
                             itemSong,
-                            GoConstants.ARTIST_VIEW
+                            RoveConstants.ARTIST_VIEW
                         )
                         return@setOnLongClickListener true
                     }

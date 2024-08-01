@@ -103,7 +103,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+
     fun updateNotification(context: Context) {
         if (::mNotificationBuilder.isInitialized) {
             mNotificationBuilder.setOngoing(mMediaPlayerHolder.isPlaying)
@@ -136,6 +136,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
             cancel(RoveConstants.NOTIFICATION_ID)
         }
     }
+
 
     fun onHandleNotificationUpdate(isAdditionalActionsChanged: Boolean) {
         if (::mNotificationBuilder.isInitialized) {
@@ -240,7 +241,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         mNotificationManagerCompat.createNotificationChannel(channel)
     }
 
-    fun updateNotification() {
-        TODO("Not yet implemented")
-    }
+//    fun updateNotification() {
+//        TODO("Not yet implemented")
+//    }
 }

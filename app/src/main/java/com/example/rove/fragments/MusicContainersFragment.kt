@@ -10,7 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.MusicViewModel
 import com.example.rove.R
@@ -42,7 +42,7 @@ class MusicContainersFragment : Fragment(),
     // View model
     private lateinit var mMusicViewModel: MusicViewModel
 
-    private var mLaunchedBy = GoConstants.ARTIST_VIEW
+    private var mLaunchedBy = RoveConstants.ARTIST_VIEW
 
     private var mList: MutableList<String>? = null
 
@@ -52,12 +52,12 @@ class MusicContainersFragment : Fragment(),
     private lateinit var mMediaControlInterface: MediaControlInterface
 
     private lateinit var mSortMenuItem: MenuItem
-    private var mSorting = GoConstants.DESCENDING_SORTING
+    private var mSorting = RoveConstants.DESCENDING_SORTING
 
-    private val sLaunchedByArtistView get() = mLaunchedBy == GoConstants.ARTIST_VIEW
-    private val sLaunchedByAlbumView get() = mLaunchedBy == GoConstants.ALBUM_VIEW
+    private val sLaunchedByArtistView get() = mLaunchedBy == RoveConstants.ARTIST_VIEW
+    private val sLaunchedByAlbumView get() = mLaunchedBy == RoveConstants.ALBUM_VIEW
 
-    private val sIsFastScrollerPopup get() = mSorting == GoConstants.ASCENDING_SORTING || mSorting == GoConstants.DESCENDING_SORTING
+    private val sIsFastScrollerPopup get() = mSorting == RoveConstants.ASCENDING_SORTING || mSorting == RoveConstants.DESCENDING_SORTING
 
     private var actionMode: ActionMode? = null
     private val isActionMode get() = actionMode != null
@@ -153,12 +153,12 @@ class MusicContainersFragment : Fragment(),
 
     private fun getSortedList(): MutableList<String>? {
         return when (mLaunchedBy) {
-            GoConstants.ARTIST_VIEW ->
+            RoveConstants.ARTIST_VIEW ->
                 Lists.getSortedList(
                     mSorting,
                     mMusicViewModel.deviceAlbumsByArtist?.keys?.toMutableList()
                 )
-            GoConstants.FOLDER_VIEW ->
+            RoveConstants.FOLDER_VIEW ->
                 Lists.getSortedList(
                     mSorting,
                     mMusicViewModel.deviceMusicByFolder?.keys?.toMutableList()
@@ -173,9 +173,9 @@ class MusicContainersFragment : Fragment(),
 
     private fun getSortingMethodFromPrefs(): Int {
         return when (mLaunchedBy) {
-            GoConstants.ARTIST_VIEW ->
+            RoveConstants.ARTIST_VIEW ->
                 RovePreferences.getPrefsInstance().artistsSorting
-            GoConstants.FOLDER_VIEW ->
+            RoveConstants.FOLDER_VIEW ->
                 RovePreferences.getPrefsInstance().foldersSorting
             else ->
                 RovePreferences.getPrefsInstance().albumsSorting
@@ -184,9 +184,9 @@ class MusicContainersFragment : Fragment(),
 
     private fun getFragmentTitle(): String {
         val stringId = when (mLaunchedBy) {
-            GoConstants.ARTIST_VIEW ->
+            RoveConstants.ARTIST_VIEW ->
                 R.string.artists
-            GoConstants.FOLDER_VIEW ->
+            RoveConstants.FOLDER_VIEW ->
                 R.string.folders
             else ->
                 R.string.albums
@@ -242,8 +242,8 @@ class MusicContainersFragment : Fragment(),
     private fun saveSortingMethodToPrefs(sortingMethod: Int) {
         with(RovePreferences.getPrefsInstance()) {
             when (mLaunchedBy) {
-                GoConstants.ARTIST_VIEW -> artistsSorting = sortingMethod
-                GoConstants.FOLDER_VIEW -> foldersSorting = sortingMethod
+                RoveConstants.ARTIST_VIEW -> artistsSorting = sortingMethod
+                RoveConstants.FOLDER_VIEW -> foldersSorting = sortingMethod
                 else -> albumsSorting = sortingMethod
             }
         }
@@ -380,9 +380,9 @@ class MusicContainersFragment : Fragment(),
 
         private fun getItemsSubtitle(item: String): String? {
             return when (mLaunchedBy) {
-                GoConstants.ARTIST_VIEW ->
+                RoveConstants.ARTIST_VIEW ->
                     getArtistSubtitle(item)
-                GoConstants.FOLDER_VIEW ->
+                RoveConstants.FOLDER_VIEW ->
                     getString(
                         R.string.folder_info,
                         mMusicViewModel.deviceMusicByFolder?.getValue(item)?.size

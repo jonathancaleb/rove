@@ -34,7 +34,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media.AudioAttributesCompat
 import androidx.media.AudioFocusRequestCompat
 import androidx.media.AudioManagerCompat
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.extensions.*
@@ -118,7 +118,7 @@ class MediaPlayerHolder:
                     // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
                     mCurrentAudioFocusState = AUDIO_NO_FOCUS_CAN_DUCK
                     sPlayOnFocusGain = false
-                    sRestoreVolume = isMediaPlayer && state == GoConstants.PLAYING || state == GoConstants.RESUMED
+                    sRestoreVolume = isMediaPlayer && state == RoveConstants.PLAYING || state == RoveConstants.RESUMED
                 }
                 AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
                     // Lost audio focus, but will gain it back (shortly), so note whether
@@ -126,7 +126,7 @@ class MediaPlayerHolder:
                     mCurrentAudioFocusState = AUDIO_FOCUS_LOSS_TRANSIENT
                     sRestoreVolume = false
                     sPlayOnFocusGain =
-                        isMediaPlayer && state == GoConstants.PLAYING || state == GoConstants.RESUMED
+                        isMediaPlayer && state == RoveConstants.PLAYING || state == RoveConstants.RESUMED
                 }
                 // Lost audio focus, probably "permanently"
                 AudioManager.AUDIOFOCUS_LOSS -> mCurrentAudioFocusState = AUDIO_NO_FOCUS_NO_DUCK
@@ -134,7 +134,7 @@ class MediaPlayerHolder:
             }
             // Update the player state based on the change
             if (sHasFocus) {
-                if (isPlaying || state == GoConstants.PAUSED && sRestoreVolume || state == GoConstants.PAUSED && sPlayOnFocusGain) {
+                if (isPlaying || state == RoveConstants.PAUSED && sRestoreVolume || state == RoveConstants.PAUSED && sPlayOnFocusGain) {
                     configurePlayerState()
                 }
             }
@@ -147,7 +147,7 @@ class MediaPlayerHolder:
 
     var currentSong: Music? = null
     private var mPlayingSongs: List<Music>? = null
-    var launchedBy = GoConstants.ARTIST_VIEW
+    var launchedBy = RoveConstants.ARTIST_VIEW
 
     var currentVolumeInPercent = RovePreferences.getPrefsInstance().latestVolume
     private var currentPlaybackSpeed = RovePreferences.getPrefsInstance().latestPlaybackSpeed
@@ -164,14 +164,14 @@ class MediaPlayerHolder:
 
     // Media player state/booleans
     val isMediaPlayer get() = ::mediaPlayer.isInitialized
-    val isPlaying get() = isMediaPlayer && state != GoConstants.PAUSED
+    val isPlaying get() = isMediaPlayer && state != RoveConstants.PAUSED
 
     private var sNotificationOngoing = false
 
     val isCurrentSongFM get() = currentSongFM != null
     val isCurrentSong get() = currentSong != null || isCurrentSongFM
 
-    private val sPlaybackSpeedPersisted get() = RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
+    private val sPlaybackSpeedPersisted get() = RovePreferences.getPrefsInstance().playbackSpeedMode != RoveConstants.PLAYBACK_SPEED_ONE_ONLY
     var isRepeat1X = false
     var isLooping = false
     private val continueOnEnd get() = RovePreferences.getPrefsInstance().continueOnEnd
@@ -186,7 +186,7 @@ class MediaPlayerHolder:
     var isSongFromPrefs = false
     var currentSongFM: Music? = null
 
-    var state = GoConstants.PAUSED
+    var state = RoveConstants.PAUSED
     var isPlay = false
 
     // Notifications
@@ -210,7 +210,7 @@ class MediaPlayerHolder:
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 sNotificationOngoing = try {
                     mMusicNotificationManager?.createNotification { notification ->
-                        mPlayerService.startForeground(GoConstants.NOTIFICATION_ID, notification)
+                        mPlayerService.startForeground(RoveConstants.NOTIFICATION_ID, notification)
                     }
                     true
                 } catch (fsNotAllowed: ForegroundServiceStartNotAllowedException) {
@@ -222,7 +222,7 @@ class MediaPlayerHolder:
                 }
             } else {
                 mMusicNotificationManager?.createNotification { notification ->
-                    mPlayerService.startForeground(GoConstants.NOTIFICATION_ID, notification)
+                    mPlayerService.startForeground(RoveConstants.NOTIFICATION_ID, notification)
                     sNotificationOngoing = true
                 }
             }
@@ -290,7 +290,7 @@ class MediaPlayerHolder:
                 putString(METADATA_KEY_AUTHOR, artist)
                 putString(METADATA_KEY_COMPOSER, artist)
                 var songTitle = title
-                if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+                if (RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN) {
                     songTitle = displayName.toFilenameWithoutExtension()
                 }
                 putString(METADATA_KEY_TITLE, songTitle)
@@ -338,7 +338,7 @@ class MediaPlayerHolder:
             canRestoreQueue -> manageRestoredQueue()
             else -> {
                 if (mPlayingSongs?.findIndex(currentSong) == mPlayingSongs?.size?.minus(1)) {
-                    if (RovePreferences.getPrefsInstance().onListEnded == GoConstants.CONTINUE) {
+                    if (RovePreferences.getPrefsInstance().onListEnded == RoveConstants.CONTINUE) {
                         skip(isNext = true)
                     } else {
                         RovePreferences.getPrefsInstance().hasCompletedPlayback = true
@@ -409,7 +409,7 @@ class MediaPlayerHolder:
             PlaybackStateCompat.Builder()
                 .setActions(mMediaSessionActions)
                 .setState(
-                    if (isPlaying) GoConstants.PLAYING else GoConstants.PAUSED,
+                    if (isPlaying) RoveConstants.PLAYING else RoveConstants.PAUSED,
                     mediaPlayer.currentPosition.toLong(),
                     currentPlaybackSpeed
                 ).build()
@@ -438,7 +438,7 @@ class MediaPlayerHolder:
             if (sFocusEnabled) tryToGetAudioFocus()
 
             val hasCompletedPlayback = RovePreferences.getPrefsInstance().hasCompletedPlayback
-            if (!continueOnEnd && isSongFromPrefs && hasCompletedPlayback || !continueOnEnd && hasCompletedPlayback || RovePreferences.getPrefsInstance().onListEnded != GoConstants.CONTINUE && hasCompletedPlayback) {
+            if (!continueOnEnd && isSongFromPrefs && hasCompletedPlayback || !continueOnEnd && hasCompletedPlayback || RovePreferences.getPrefsInstance().onListEnded != RoveConstants.CONTINUE && hasCompletedPlayback) {
                 RovePreferences.getPrefsInstance().hasCompletedPlayback = false
                 skip(isNext = true)
             } else {
@@ -447,9 +447,9 @@ class MediaPlayerHolder:
 
             state = if (isSongFromPrefs) {
                 isSongFromPrefs = false
-                GoConstants.PLAYING
+                RoveConstants.PLAYING
             } else {
-                GoConstants.RESUMED
+                RoveConstants.RESUMED
             }
 
             isPlay = true
@@ -463,7 +463,7 @@ class MediaPlayerHolder:
         // Do not pause foreground service, we will need to resume likely
         MediaPlayerUtils.safePause(mediaPlayer)
         sNotificationOngoing = false
-        state = GoConstants.PAUSED
+        state = RoveConstants.PAUSED
         updatePlaybackStatus(updateUI = true)
         mMusicNotificationManager?.run {
             updatePlayPauseAction()
@@ -686,7 +686,7 @@ class MediaPlayerHolder:
 
     private fun play() {
         startOrChangePlaybackSpeed()
-        state = GoConstants.PLAYING
+        state = RoveConstants.PLAYING
         updatePlaybackStatus(updateUI = true)
     }
 
@@ -801,7 +801,7 @@ class MediaPlayerHolder:
             mMusicNotificationManager?.cancelNotification()
             mMusicNotificationManager = null
         }
-        state = GoConstants.PAUSED
+        state = RoveConstants.PAUSED
         unregisterActionsReceiver()
         destroyInstance()
     }
@@ -871,7 +871,7 @@ class MediaPlayerHolder:
     }
 
     fun onUpdateFavorites() {
-        if (RovePreferences.getPrefsInstance().notificationActions.first == GoConstants.FAVORITE_ACTION) {
+        if (RovePreferences.getPrefsInstance().notificationActions.first == RoveConstants.FAVORITE_ACTION) {
             mPlayerService.musicNotificationManager.updateFavoriteIcon()
         }
         mediaPlayerInterface.onUpdateFavorites()
@@ -976,7 +976,7 @@ class MediaPlayerHolder:
             if (sPlaybackSpeedPersisted) {
                 RovePreferences.getPrefsInstance().latestPlaybackSpeed = currentPlaybackSpeed
             }
-            if (state != GoConstants.PAUSED) {
+            if (state != RoveConstants.PAUSED) {
                 MediaPlayerUtils.safeSetPlaybackSpeed(mediaPlayer, currentPlaybackSpeed)
                 updatePlaybackStatus(updateUI = false)
             }

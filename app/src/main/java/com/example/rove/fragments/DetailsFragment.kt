@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.MusicViewModel
 import com.example.rove.R
@@ -56,10 +56,10 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mUIControlInterface: UIControlInterface
     private lateinit var mMediaControlInterface: MediaControlInterface
 
-    private var mLaunchedBy = GoConstants.ARTIST_VIEW
-    private val sLaunchedByArtistView get() = mLaunchedBy == GoConstants.ARTIST_VIEW
-    private val sLaunchedByFolderView get() = mLaunchedBy == GoConstants.FOLDER_VIEW
-    private val sLaunchedByAlbumView get() = mLaunchedBy == GoConstants.ALBUM_VIEW
+    private var mLaunchedBy = RoveConstants.ARTIST_VIEW
+    private val sLaunchedByArtistView get() = mLaunchedBy == RoveConstants.ARTIST_VIEW
+    private val sLaunchedByFolderView get() = mLaunchedBy == RoveConstants.FOLDER_VIEW
+    private val sLaunchedByAlbumView get() = mLaunchedBy == RoveConstants.ALBUM_VIEW
 
     private lateinit var mArtistDetailsAnimator: Animator
     private lateinit var mAlbumsRecyclerViewLayoutManager: LinearLayoutManager
@@ -76,7 +76,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mSortMenuItem: MenuItem
     private var mSongsSorting = Lists.getDefSortingMode()
 
-    private val sShowDisplayName get() = RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN
+    private val sShowDisplayName get() = RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN
 
     private var sPlayFirstSong = true
     private var sCanUpdateSongs = false
@@ -127,11 +127,11 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun getSongSource(): List<Music>? {
         return when (mLaunchedBy) {
-            GoConstants.ARTIST_VIEW -> {
+            RoveConstants.ARTIST_VIEW -> {
                 mSelectedArtistAlbums = mMusicViewModel.deviceAlbumsByArtist?.get(mSelectedArtistOrFolder)
                 mMusicViewModel.deviceSongsByArtist?.get(mSelectedArtistOrFolder)
             }
-            GoConstants.FOLDER_VIEW ->
+            RoveConstants.FOLDER_VIEW ->
                 mMusicViewModel.deviceMusicByFolder?.get(mSelectedArtistOrFolder)
             else ->
                 mMusicViewModel.deviceMusicByAlbum?.get(mSelectedArtistOrFolder)
@@ -477,15 +477,15 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
                         mSelectedAlbum?.music,
                         mLaunchedBy
                     )
-                    R.id.default_sorting -> applySortingToMusic(GoConstants.DEFAULT_SORTING)
-                    R.id.ascending_sorting -> applySortingToMusic(GoConstants.ASCENDING_SORTING)
-                    R.id.descending_sorting -> applySortingToMusic(GoConstants.DESCENDING_SORTING)
-                    R.id.track_sorting -> applySortingToMusic(GoConstants.TRACK_SORTING)
-                    R.id.track_sorting_inv -> applySortingToMusic(GoConstants.TRACK_SORTING_INVERTED)
-                    R.id.date_added_sorting -> applySortingToMusic(GoConstants.DATE_ADDED_SORTING)
-                    R.id.date_added_sorting_inv -> applySortingToMusic(GoConstants.DATE_ADDED_SORTING_INV)
-                    R.id.artist_sorting -> applySortingToMusic(GoConstants.ARTIST_SORTING)
-                    R.id.artist_sorting_inv-> applySortingToMusic(GoConstants.ARTIST_SORTING_INV)
+                    R.id.default_sorting -> applySortingToMusic(RoveConstants.DEFAULT_SORTING)
+                    R.id.ascending_sorting -> applySortingToMusic(RoveConstants.ASCENDING_SORTING)
+                    R.id.descending_sorting -> applySortingToMusic(RoveConstants.DESCENDING_SORTING)
+                    R.id.track_sorting -> applySortingToMusic(RoveConstants.TRACK_SORTING)
+                    R.id.track_sorting_inv -> applySortingToMusic(RoveConstants.TRACK_SORTING_INVERTED)
+                    R.id.date_added_sorting -> applySortingToMusic(RoveConstants.DATE_ADDED_SORTING)
+                    R.id.date_added_sorting_inv -> applySortingToMusic(RoveConstants.DATE_ADDED_SORTING_INV)
+                    R.id.artist_sorting -> applySortingToMusic(RoveConstants.ARTIST_SORTING)
+                    R.id.artist_sorting_inv-> applySortingToMusic(RoveConstants.ARTIST_SORTING_INV)
                     R.id.sleeptimer -> mUIControlInterface.onOpenSleepTimerDialog()
                 }
                 return@setOnMenuItemClickListener true
@@ -598,7 +598,7 @@ class DetailsFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private fun swapAlbum(songs: MutableList<Music>?) {
         sAlbumSwapped = true
-        songs?.get(0)?.findRestoreSorting(GoConstants.ARTIST_VIEW)?.let { sorting ->
+        songs?.get(0)?.findRestoreSorting(RoveConstants.ARTIST_VIEW)?.let { sorting ->
             mSongsSorting = sorting
         }
         setSongsDataSource(songs, updateSongs = false, updateAdapter = true)
