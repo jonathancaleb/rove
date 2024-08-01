@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.databinding.NotificationActionsItemBinding
 import com.example.rove.models.NotificationAction
@@ -16,10 +16,10 @@ class NotificationActionsAdapter: RecyclerView.Adapter<NotificationActionsAdapte
     var selectedActions = RovePreferences.getPrefsInstance().notificationActions
 
     private val mActions = listOf(
-        NotificationAction(GoConstants.REPEAT_ACTION, GoConstants.CLOSE_ACTION), // default
-        NotificationAction(GoConstants.REWIND_ACTION, GoConstants.FAST_FORWARD_ACTION),
-        NotificationAction(GoConstants.FAVORITE_ACTION, GoConstants.CLOSE_ACTION),
-        NotificationAction(GoConstants.FAVORITE_POSITION_ACTION, GoConstants.CLOSE_ACTION)
+        NotificationAction(RoveConstants.REPEAT_ACTION, RoveConstants.CLOSE_ACTION), // default
+        NotificationAction(RoveConstants.REWIND_ACTION, RoveConstants.FAST_FORWARD_ACTION),
+        NotificationAction(RoveConstants.FAVORITE_ACTION, RoveConstants.CLOSE_ACTION),
+        NotificationAction(RoveConstants.FAVORITE_POSITION_ACTION, RoveConstants.CLOSE_ACTION)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckableItemsHolder {

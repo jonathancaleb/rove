@@ -38,7 +38,7 @@ class QueueAdapter : RecyclerView.Adapter<QueueAdapter.QueueHolder>() {
     override fun getItemCount() = queueSongs.size
 
     override fun onBindViewHolder(holder: QueueHolder, position: Int) {
-        holder.bindItems(queueSongs[holder.absoluteAdapterPosition])
+        holder.bindItems(queueSongs[holder.adapterPosition])
     }
 
     inner class QueueHolder(private val binding: QueueItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -55,7 +55,7 @@ class QueueAdapter : RecyclerView.Adapter<QueueAdapter.QueueHolder>() {
                 subtitle.text =
                     context.getString(R.string.artist_and_album, song.artist, song.album)
 
-                title.setTextColor(if (isCurrentIndex(absoluteAdapterPosition)){
+                title.setTextColor(if (isCurrentIndex(adapterPosition)){
                     Theming.resolveThemeColor(context.resources)
                 } else {
                     Theming.resolveColorAttr(context, android.R.attr.textColorPrimary)

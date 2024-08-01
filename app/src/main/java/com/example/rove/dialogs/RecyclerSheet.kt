@@ -215,9 +215,9 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                         ItemTouchHelper(ItemSwipeCallback(isQueueDialog = true, isFavoritesDialog = false) { viewHolder: RecyclerView.ViewHolder, _: Int ->
                             if (!mQueueAdapter.performQueueSongDeletion(
                                     requireActivity(),
-                                    viewHolder.absoluteAdapterPosition)
+                                    viewHolder.adapterPosition)
                             ) {
-                                mQueueAdapter.notifyItemChanged(viewHolder.absoluteAdapterPosition)
+                                mQueueAdapter.notifyItemChanged(viewHolder.adapterPosition)
                             }
                         }).attachToRecyclerView(modalRv)
 
@@ -342,7 +342,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                     ItemTouchHelper(ItemSwipeCallback(isQueueDialog = false, isFavoritesDialog = true) {
                             viewHolder: RecyclerView.ViewHolder,
                             direction: Int ->
-                        val index = viewHolder.absoluteAdapterPosition
+                        val index = viewHolder.adapterPosition
                         favoritesAdapter.notifyItemChanged(index)
                         if (direction == ItemTouchHelper.RIGHT) {
                             mMediaControlInterface.onAddToQueue(mRovePreferences.favorites?.get(index))
@@ -388,7 +388,7 @@ class RecyclerSheet: BottomSheetDialogFragment() {
         }
 
         override fun onBindViewHolder(holder: SleepTimerHolder, position: Int) {
-            holder.bindItems(sleepOptions[holder.absoluteAdapterPosition])
+            holder.bindItems(sleepOptions[holder.adapterPosition])
         }
 
         inner class SleepTimerHolder(private val binding: SleeptimerItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -398,14 +398,14 @@ class RecyclerSheet: BottomSheetDialogFragment() {
                 with(binding.root) {
                     text = itemSleepOption
                     contentDescription = itemSleepOption
-                    setTextColor(if (mSelectedPosition == absoluteAdapterPosition) {
+                    setTextColor(if (mSelectedPosition == adapterPosition) {
                         Theming.resolveThemeColor(resources)
                     } else {
                         mDefaultTextColor
                     })
                     setOnClickListener {
                         notifyItemChanged(mSelectedPosition)
-                        mSelectedPosition = absoluteAdapterPosition
+                        mSelectedPosition = adapterPosition
                         notifyItemChanged(mSelectedPosition)
                     }
                 }

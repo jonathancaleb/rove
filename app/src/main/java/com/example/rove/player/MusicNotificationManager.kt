@@ -1,20 +1,27 @@
 package com.example.rove.player
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.app.Activity
 import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.support.v4.media.MediaMetadataCompat
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.app.NotificationCompat.MediaStyle
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.models.NotificationAction
@@ -44,18 +51,19 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         if (Versioning.isMarshmallow()) {
             flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         }
-        return PendingIntent.getService(playerService, GoConstants.NOTIFICATION_INTENT_REQUEST_CODE, intent, flags)
+        return PendingIntent.getService(playerService, RoveConstants.NOTIFICATION_INTENT_REQUEST_CODE, intent, flags)
     }
 
     private val notificationActions: NotificationAction get() = RovePreferences.getPrefsInstance().notificationActions
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun createNotification(onCreated: (Notification) -> Unit) {
 
         mNotificationBuilder =
-            NotificationCompat.Builder(playerService, GoConstants.NOTIFICATION_CHANNEL_ID)
+            NotificationCompat.Builder(playerService, RoveConstants.NOTIFICATION_CHANNEL_ID)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel(GoConstants.NOTIFICATION_CHANNEL_ID)
+            createNotificationChannel(RoveConstants.NOTIFICATION_CHANNEL_ID)
         }
 
         val openPlayerIntent = Intent(playerService, MainActivity::class.java)
@@ -65,7 +73,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         var flags = 0
         if (Versioning.isMarshmallow()) flags = PendingIntent.FLAG_IMMUTABLE or 0
         val contentIntent = PendingIntent.getActivity(
-            playerService, GoConstants.NOTIFICATION_INTENT_REQUEST_CODE,
+            playerService, RoveConstants.NOTIFICATION_INTENT_REQUEST_CODE,
             openPlayerIntent, flags
         )
 
@@ -76,13 +84,14 @@ class MusicNotificationManager(private val playerService: PlayerService) {
             .setSilent(true)
             .setShowWhen(false)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setLargeIcon(null)
+            .setLargeIcon(null as Icon)
+//            .setLargeIcon(null)
             .setOngoing(mMediaPlayerHolder.isPlaying)
             .setSmallIcon(R.drawable.ic_music_note)
             .addAction(getNotificationAction(notificationActions.first))
-            .addAction(getNotificationAction(GoConstants.PREV_ACTION))
-            .addAction(getNotificationAction(GoConstants.PLAY_PAUSE_ACTION))
-            .addAction(getNotificationAction(GoConstants.NEXT_ACTION))
+            .addAction(getNotificationAction(RoveConstants.PREV_ACTION))
+            .addAction(getNotificationAction(RoveConstants.PLAY_PAUSE_ACTION))
+            .addAction(getNotificationAction(RoveConstants.NEXT_ACTION))
             .addAction(getNotificationAction(notificationActions.second))
             .setStyle(MediaStyle()
                 .setMediaSession(playerService.getMediaSession()?.sessionToken)
@@ -94,19 +103,37 @@ class MusicNotificationManager(private val playerService: PlayerService) {
         }
     }
 
-    fun updateNotification() {
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    fun updateNotification(context: Context) {
         if (::mNotificationBuilder.isInitialized) {
             mNotificationBuilder.setOngoing(mMediaPlayerHolder.isPlaying)
             updatePlayPauseAction()
+
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // Request permission or handle the case when permission is not granted
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    REQUEST_CODE_POST_NOTIFICATIONS
+                )
+                return
+            }
+
             with(mNotificationManagerCompat) {
-                notify(GoConstants.NOTIFICATION_ID, mNotificationBuilder.build())
+                notify(RoveConstants.NOTIFICATION_ID, mNotificationBuilder.build())
             }
         }
     }
 
+    private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
+
     fun cancelNotification() {
         with(mNotificationManagerCompat) {
-            cancel(GoConstants.NOTIFICATION_ID)
+            cancel(RoveConstants.NOTIFICATION_ID)
         }
     }
 
@@ -140,14 +167,14 @@ class MusicNotificationManager(private val playerService: PlayerService) {
     fun updatePlayPauseAction() {
         if (::mNotificationBuilder.isInitialized) {
             mNotificationActions[2] =
-                getNotificationAction(GoConstants.PLAY_PAUSE_ACTION)
+                getNotificationAction(RoveConstants.PLAY_PAUSE_ACTION)
         }
     }
 
     fun updateRepeatIcon() {
         if (::mNotificationBuilder.isInitialized) {
             mNotificationActions[0] =
-                getNotificationAction(GoConstants.REPEAT_ACTION)
+                getNotificationAction(RoveConstants.REPEAT_ACTION)
             updateNotification()
         }
     }
@@ -155,7 +182,7 @@ class MusicNotificationManager(private val playerService: PlayerService) {
     fun updateFavoriteIcon() {
         if (::mNotificationBuilder.isInitialized) {
             mNotificationActions[0] =
-                getNotificationAction(GoConstants.FAVORITE_ACTION)
+                getNotificationAction(RoveConstants.FAVORITE_ACTION)
             updateNotification()
         }
     }
@@ -169,9 +196,9 @@ class MusicNotificationManager(private val playerService: PlayerService) {
     fun createNotificationForError() {
 
         val notificationBuilder =
-            NotificationCompat.Builder(playerService, GoConstants.NOTIFICATION_CHANNEL_ERROR_ID)
+            NotificationCompat.Builder(playerService, RoveConstants.NOTIFICATION_CHANNEL_ERROR_ID)
 
-        createNotificationChannel(GoConstants.NOTIFICATION_CHANNEL_ERROR_ID)
+        createNotificationChannel(RoveConstants.NOTIFICATION_CHANNEL_ERROR_ID)
 
         notificationBuilder.setSmallIcon(R.drawable.ic_report)
             .setSilent(true)
@@ -181,7 +208,21 @@ class MusicNotificationManager(private val playerService: PlayerService) {
                 .bigText(playerService.getString(R.string.error_fs_not_allowed)))
             .priority = NotificationCompat.PRIORITY_DEFAULT
         with(NotificationManagerCompat.from(playerService)) {
-            notify(GoConstants.NOTIFICATION_ERROR_ID, notificationBuilder.build())
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return
+            }
+            notify(RoveConstants.NOTIFICATION_ERROR_ID, notificationBuilder.build())
         }
     }
 
@@ -197,5 +238,9 @@ class MusicNotificationManager(private val playerService: PlayerService) {
 
         // Register the channel with the system
         mNotificationManagerCompat.createNotificationChannel(channel)
+    }
+
+    fun updateNotification() {
+        TODO("Not yet implemented")
     }
 }

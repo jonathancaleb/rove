@@ -1,5 +1,6 @@
 package com.example.rove.extensions
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.content.res.Resources
@@ -116,6 +117,7 @@ fun Long.waitForCover(context: Context, onDone: (Bitmap?, Boolean) -> Unit) {
     )
 }
 
+@SuppressLint("DefaultLocale")
 fun Long.toFormattedDuration(isAlbum: Boolean, isSeekBar: Boolean) = try {
 
     val defaultFormat = if (isAlbum) "%02dm:%02ds" else "%02d:%02d"

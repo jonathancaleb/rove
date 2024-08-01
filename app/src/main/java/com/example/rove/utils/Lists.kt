@@ -6,7 +6,7 @@ import android.content.Context
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.extensions.findSorting
@@ -46,7 +46,7 @@ object Lists {
         // In real app you'd have it instantiated just once
         val filteredSongs = mutableListOf<Music>()
         val isShowDisplayName =
-            RovePreferences.getPrefsInstance().songsVisualization== GoConstants.FN
+            RovePreferences.getPrefsInstance().songsVisualization== RoveConstants.FN
         return try {
             // Case insensitive search
             musicList?.iterator()?.let { iterate ->
@@ -71,10 +71,10 @@ object Lists {
 
     @JvmStatic
     fun getSortedList(id: Int, list: MutableList<String>?) = when (id) {
-        GoConstants.ASCENDING_SORTING -> list?.apply {
+        RoveConstants.ASCENDING_SORTING -> list?.apply {
             Collections.sort(this, String.CASE_INSENSITIVE_ORDER)
         }
-        GoConstants.DESCENDING_SORTING -> list?.apply {
+        RoveConstants.DESCENDING_SORTING -> list?.apply {
             Collections.sort(this, String.CASE_INSENSITIVE_ORDER)
         }?.asReversed()
         else -> list
@@ -96,8 +96,8 @@ object Lists {
     @JvmStatic
     fun getSelectedSorting(sorting: Int, menu: Menu): MenuItem {
         return when (sorting) {
-            GoConstants.ASCENDING_SORTING -> menu.findItem(R.id.ascending_sorting)
-            GoConstants.DESCENDING_SORTING -> menu.findItem(R.id.descending_sorting)
+            RoveConstants.ASCENDING_SORTING -> menu.findItem(R.id.ascending_sorting)
+            RoveConstants.DESCENDING_SORTING -> menu.findItem(R.id.descending_sorting)
             else -> menu.findItem(R.id.default_sorting)
         }
     }
@@ -105,14 +105,14 @@ object Lists {
     @JvmStatic
     fun getSelectedSortingForMusic(sorting: Int, menu: Menu): MenuItem {
         return when (sorting) {
-            GoConstants.ASCENDING_SORTING -> menu.findItem(R.id.ascending_sorting)
-            GoConstants.DESCENDING_SORTING -> menu.findItem(R.id.descending_sorting)
-            GoConstants.DATE_ADDED_SORTING -> menu.findItem(R.id.date_added_sorting)
-            GoConstants.DATE_ADDED_SORTING_INV -> menu.findItem(R.id.date_added_sorting_inv)
-            GoConstants.ARTIST_SORTING -> menu.findItem(R.id.artist_sorting)
-            GoConstants.ARTIST_SORTING_INV -> menu.findItem(R.id.artist_sorting_inv)
-            GoConstants.ALBUM_SORTING -> menu.findItem(R.id.album_sorting)
-            GoConstants.ALBUM_SORTING_INV -> menu.findItem(R.id.album_sorting_inv)
+            RoveConstants.ASCENDING_SORTING -> menu.findItem(R.id.ascending_sorting)
+            RoveConstants.DESCENDING_SORTING -> menu.findItem(R.id.descending_sorting)
+            RoveConstants.DATE_ADDED_SORTING -> menu.findItem(R.id.date_added_sorting)
+            RoveConstants.DATE_ADDED_SORTING_INV -> menu.findItem(R.id.date_added_sorting_inv)
+            RoveConstants.ARTIST_SORTING -> menu.findItem(R.id.artist_sorting)
+            RoveConstants.ARTIST_SORTING_INV -> menu.findItem(R.id.artist_sorting_inv)
+            RoveConstants.ALBUM_SORTING -> menu.findItem(R.id.album_sorting)
+            RoveConstants.ALBUM_SORTING_INV -> menu.findItem(R.id.album_sorting_inv)
             else -> menu.findItem(R.id.default_sorting)
         }
     }
@@ -120,10 +120,10 @@ object Lists {
     @JvmStatic
     fun getSortedMusicList(id: Int, list: List<Music>?): List<Music>? {
         return when (id) {
-            GoConstants.ASCENDING_SORTING -> getSortedListBySelectedVisualization(list)
-            GoConstants.DESCENDING_SORTING -> getSortedListBySelectedVisualization(list)?.asReversed()
-            GoConstants.TRACK_SORTING -> list?.sortedBy { it.track }
-            GoConstants.TRACK_SORTING_INVERTED -> list?.sortedBy { it.track }?.asReversed()
+            RoveConstants.ASCENDING_SORTING -> getSortedListBySelectedVisualization(list)
+            RoveConstants.DESCENDING_SORTING -> getSortedListBySelectedVisualization(list)?.asReversed()
+            RoveConstants.TRACK_SORTING -> list?.sortedBy { it.track }
+            RoveConstants.TRACK_SORTING_INVERTED -> list?.sortedBy { it.track }?.asReversed()
             else -> list
         }
     }
@@ -131,12 +131,12 @@ object Lists {
     @JvmStatic
     fun getSortedMusicListForFolder(id: Int, list: List<Music>?): List<Music>? {
         return when (id) {
-            GoConstants.ASCENDING_SORTING -> list?.sortedBy { it.displayName }
-            GoConstants.DESCENDING_SORTING -> list?.sortedBy { it.displayName }?.asReversed()
-            GoConstants.DATE_ADDED_SORTING -> list?.sortedBy { it.dateAdded }?.asReversed()
-            GoConstants.DATE_ADDED_SORTING_INV -> list?.sortedBy { it.dateAdded }
-            GoConstants.ARTIST_SORTING -> list?.sortedBy { it.artist }
-            GoConstants.ARTIST_SORTING_INV -> list?.sortedBy { it.artist }?.asReversed()
+            RoveConstants.ASCENDING_SORTING -> list?.sortedBy { it.displayName }
+            RoveConstants.DESCENDING_SORTING -> list?.sortedBy { it.displayName }?.asReversed()
+            RoveConstants.DATE_ADDED_SORTING -> list?.sortedBy { it.dateAdded }?.asReversed()
+            RoveConstants.DATE_ADDED_SORTING_INV -> list?.sortedBy { it.dateAdded }
+            RoveConstants.ARTIST_SORTING -> list?.sortedBy { it.artist }
+            RoveConstants.ARTIST_SORTING_INV -> list?.sortedBy { it.artist }?.asReversed()
             else -> list
         }
     }
@@ -144,22 +144,22 @@ object Lists {
     @JvmStatic
     fun getSortedMusicListForAllMusic(id: Int, list: List<Music>?): List<Music>? {
         return when (id) {
-            GoConstants.ASCENDING_SORTING -> getSortedListBySelectedVisualization(list)
-            GoConstants.DESCENDING_SORTING -> getSortedListBySelectedVisualization(list)?.asReversed()
-            GoConstants.TRACK_SORTING -> list?.sortedBy { it.track }
-            GoConstants.TRACK_SORTING_INVERTED -> list?.sortedBy { it.track }?.asReversed()
-            GoConstants.DATE_ADDED_SORTING -> list?.sortedBy { it.dateAdded }?.asReversed()
-            GoConstants.DATE_ADDED_SORTING_INV -> list?.sortedBy { it.dateAdded }
-            GoConstants.ARTIST_SORTING -> list?.sortedBy { it.artist }
-            GoConstants.ARTIST_SORTING_INV -> list?.sortedBy { it.artist }?.asReversed()
-            GoConstants.ALBUM_SORTING -> list?.sortedBy { it.album }
-            GoConstants.ALBUM_SORTING_INV -> list?.sortedBy { it.album }?.asReversed()
+            RoveConstants.ASCENDING_SORTING -> getSortedListBySelectedVisualization(list)
+            RoveConstants.DESCENDING_SORTING -> getSortedListBySelectedVisualization(list)?.asReversed()
+            RoveConstants.TRACK_SORTING -> list?.sortedBy { it.track }
+            RoveConstants.TRACK_SORTING_INVERTED -> list?.sortedBy { it.track }?.asReversed()
+            RoveConstants.DATE_ADDED_SORTING -> list?.sortedBy { it.dateAdded }?.asReversed()
+            RoveConstants.DATE_ADDED_SORTING_INV -> list?.sortedBy { it.dateAdded }
+            RoveConstants.ARTIST_SORTING -> list?.sortedBy { it.artist }
+            RoveConstants.ARTIST_SORTING_INV -> list?.sortedBy { it.artist }?.asReversed()
+            RoveConstants.ALBUM_SORTING -> list?.sortedBy { it.album }
+            RoveConstants.ALBUM_SORTING_INV -> list?.sortedBy { it.album }?.asReversed()
             else -> list
         }
     }
 
     private fun getSortedListBySelectedVisualization(list: List<Music>?) = list?.sortedBy {
-        if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+        if (RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN) {
             it.displayName
         } else {
             it.title
@@ -168,18 +168,18 @@ object Lists {
 
     @JvmStatic
     fun getSongsSorting(currentSorting: Int) = when (currentSorting) {
-        GoConstants.TRACK_SORTING -> GoConstants.TRACK_SORTING_INVERTED
-        GoConstants.TRACK_SORTING_INVERTED -> GoConstants.ASCENDING_SORTING
-        GoConstants.ASCENDING_SORTING -> GoConstants.DESCENDING_SORTING
-        else -> GoConstants.TRACK_SORTING
+        RoveConstants.TRACK_SORTING -> RoveConstants.TRACK_SORTING_INVERTED
+        RoveConstants.TRACK_SORTING_INVERTED -> RoveConstants.ASCENDING_SORTING
+        RoveConstants.ASCENDING_SORTING -> RoveConstants.DESCENDING_SORTING
+        else -> RoveConstants.TRACK_SORTING
     }
 
     @JvmStatic
     fun getSongsDisplayNameSorting(currentSorting: Int): Int {
-        if (currentSorting == GoConstants.ASCENDING_SORTING) {
-            return GoConstants.DESCENDING_SORTING
+        if (currentSorting == RoveConstants.ASCENDING_SORTING) {
+            return RoveConstants.DESCENDING_SORTING
         }
-        return GoConstants.ASCENDING_SORTING
+        return RoveConstants.ASCENDING_SORTING
     }
 
     fun hideItems(items: List<String>) {
@@ -222,10 +222,10 @@ object Lists {
     }
 
     @JvmStatic
-    fun getDefSortingMode() = if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
-        GoConstants.ASCENDING_SORTING
+    fun getDefSortingMode() = if (RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN) {
+        RoveConstants.ASCENDING_SORTING
     } else {
-        GoConstants.TRACK_SORTING
+        RoveConstants.TRACK_SORTING
     }
 
     @JvmStatic

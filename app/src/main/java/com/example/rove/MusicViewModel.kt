@@ -175,7 +175,7 @@ class MusicViewModel(application: Application): AndroidViewModel(application) {
                             albumId,
                             audioFolderName,
                             audioId,
-                            GoConstants.ARTIST_VIEW,
+                            RoveConstants.ARTIST_VIEW,
                             0,
                             audioDateAdded
                         )

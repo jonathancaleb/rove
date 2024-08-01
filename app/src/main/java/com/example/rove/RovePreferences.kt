@@ -72,16 +72,16 @@ class RovePreferences(context: Context) {
 
     var activeTabsDef: List<String>
         get() = getObjectForType("active_tabs_def_pref", typeActiveTabs)
-            ?: GoConstants.DEFAULT_ACTIVE_FRAGMENTS
+            ?: RoveConstants.DEFAULT_ACTIVE_FRAGMENTS
         set(value) = putObjectForType("active_tabs_def_pref", value, typeActiveTabs)
 
     var activeTabs: List<String>
         get() = getObjectForType("active_tabs_pref", typeActiveTabs)
-            ?: GoConstants.DEFAULT_ACTIVE_FRAGMENTS
+            ?: RoveConstants.DEFAULT_ACTIVE_FRAGMENTS
         set(value) = putObjectForType("active_tabs_pref", value, typeActiveTabs)
 
     var onListEnded
-        get() = mPrefs.getString("on_list_ended_pref", GoConstants.CONTINUE)
+        get() = mPrefs.getString("on_list_ended_pref", RoveConstants.CONTINUE)
         set(value) = mPrefs.edit { putString("on_list_ended_pref", value) }
 
     var isCovers: Boolean
@@ -89,28 +89,28 @@ class RovePreferences(context: Context) {
         set(value) = mPrefs.edit { putBoolean("covers_pref", value) }
 
     var songsVisualization
-        get() = mPrefs.getString("song_visual_pref", GoConstants.FN)
+        get() = mPrefs.getString("song_visual_pref", RoveConstants.FN)
         set(value) = mPrefs.edit { putString("song_visual_pref", value.toString()) }
 
     var artistsSorting
-        get() = mPrefs.getInt("sorting_artists_pref", GoConstants.ASCENDING_SORTING)
+        get() = mPrefs.getInt("sorting_artists_pref", RoveConstants.ASCENDING_SORTING)
         set(value) = mPrefs.edit { putInt("sorting_artists_pref", value) }
 
     var foldersSorting
-        get() = mPrefs.getInt("sorting_folder_details_pref", GoConstants.DEFAULT_SORTING)
+        get() = mPrefs.getInt("sorting_folder_details_pref", RoveConstants.DEFAULT_SORTING)
         set(value) = mPrefs.edit { putInt("sorting_folder_details_pref", value) }
 
     var albumsSorting
-        get() = mPrefs.getInt("sorting_album_details_pref", GoConstants.DEFAULT_SORTING)
+        get() = mPrefs.getInt("sorting_album_details_pref", RoveConstants.DEFAULT_SORTING)
         set(value) = mPrefs.edit { putInt("sorting_album_details_pref", value) }
 
     var allMusicSorting
-        get() = mPrefs.getInt("sorting_all_music_tab_pref", GoConstants.DEFAULT_SORTING)
+        get() = mPrefs.getInt("sorting_all_music_tab_pref", RoveConstants.DEFAULT_SORTING)
         set(value) = mPrefs.edit { putInt("sorting_all_music_tab_pref", value) }
 
     var notificationActions: NotificationAction
         get() = getObjectForType("notification_actions_pref", NotificationAction::class.java)
-            ?: NotificationAction(GoConstants.REPEAT_ACTION, GoConstants.CLOSE_ACTION)
+            ?: NotificationAction(RoveConstants.REPEAT_ACTION, RoveConstants.CLOSE_ACTION)
         set(value) = putObjectForType("notification_actions_pref", value, NotificationAction::class.java)
 
     var filters: Set<String>?
@@ -138,7 +138,7 @@ class RovePreferences(context: Context) {
         set(value) = mPrefs.edit { putBoolean("headsets_pref", value) }
 
     var playbackSpeedMode
-        get() = mPrefs.getString("playback_vel_pref", GoConstants.PLAYBACK_SPEED_ONE_ONLY)
+        get() = mPrefs.getString("playback_vel_pref", RoveConstants.PLAYBACK_SPEED_ONE_ONLY)
         set(value) = mPrefs.edit { putString("playback_vel_pref", value) }
 
     var isAnimations

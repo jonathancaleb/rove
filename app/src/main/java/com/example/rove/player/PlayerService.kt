@@ -12,7 +12,7 @@ import android.os.PowerManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.utils.Lists
 import com.example.rove.utils.Versioning
@@ -150,7 +150,7 @@ class PlayerService : Service() {
 
                 with(mMediaPlayerHolder) {
                     when (act) {
-                        GoConstants.FAVORITE_ACTION -> {
+                        RoveConstants.FAVORITE_ACTION -> {
                             Lists.addToFavorites(
                                 this@PlayerService,
                                 currentSong,
@@ -161,23 +161,23 @@ class PlayerService : Service() {
                             musicNotificationManager.updateFavoriteIcon()
                             mMediaPlayerHolder.mediaPlayerInterface.onUpdateFavorites()
                         }
-                        GoConstants.FAVORITE_POSITION_ACTION -> Lists.addToFavorites(
+                        RoveConstants.FAVORITE_POSITION_ACTION -> Lists.addToFavorites(
                             this@PlayerService,
                             currentSong,
                             canRemove = false,
                             playerPosition,
                             launchedBy
                         )
-                        GoConstants.REWIND_ACTION -> fastSeek(isForward = false)
-                        GoConstants.PREV_ACTION -> instantReset()
-                        GoConstants.PLAY_PAUSE_ACTION -> resumeOrPause()
-                        GoConstants.NEXT_ACTION -> skip(isNext = true)
-                        GoConstants.FAST_FORWARD_ACTION -> fastSeek(isForward = true)
-                        GoConstants.REPEAT_ACTION -> {
+                        RoveConstants.REWIND_ACTION -> fastSeek(isForward = false)
+                        RoveConstants.PREV_ACTION -> instantReset()
+                        RoveConstants.PLAY_PAUSE_ACTION -> resumeOrPause()
+                        RoveConstants.NEXT_ACTION -> skip(isNext = true)
+                        RoveConstants.FAST_FORWARD_ACTION -> fastSeek(isForward = true)
+                        RoveConstants.REPEAT_ACTION -> {
                             repeat(updatePlaybackStatus = true)
                             mediaPlayerInterface.onUpdateRepeatStatus()
                         }
-                        GoConstants.CLOSE_ACTION -> if (isRunning && isMediaPlayer) {
+                        RoveConstants.CLOSE_ACTION -> if (isRunning && isMediaPlayer) {
                             stopPlaybackService(stopPlayback = true, fromUser = true, fromFocus = false)
                         }
                     }

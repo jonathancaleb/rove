@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.R
 import com.example.rove.ui.UIControlInterface
 
@@ -58,7 +58,7 @@ object Permissions {
         ActivityCompat.requestPermissions(
             activity,
             arrayOf(PERMISSION_READ_AUDIO),
-            GoConstants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE
+            RoveConstants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE
         )
     }
 }

@@ -217,7 +217,7 @@ class AllMusicFragment : Fragment(), SearchView.OnQueryTextListener {
             return SongsHolder(binding)
         }
 
-        override fun getPopupText(position: Int): String {
+        override fun getPopupText(view: View, position: Int): CharSequence {
             if (sIsFastScrollerPopup) {
                 mAllMusic?.get(position)?.title?.run {
                     if (isNotEmpty()) return first().toString()

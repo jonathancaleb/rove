@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.window)
+    implementation(libs.androidx.preference.ktx)
 
     // Testing dependencies
     testImplementation(libs.junit)
@@ -102,4 +104,8 @@ dependencies {
     // 3rd party dependencies
     implementation(libs.coil)  // Image loading library
     implementation(libs.moshi)  // JSON parsing library
+    implementation(libs.library)
+    implementation(libs.androidx.media)
+    implementation(libs.preference.ktx)
+    implementation(libs.androidx.browser)
 }

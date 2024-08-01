@@ -13,7 +13,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.extensions.setIconTint
@@ -28,7 +28,7 @@ object Theming {
         with(activity) {
             finishAfterTransition()
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra(GoConstants.RESTORE_FRAGMENT, currentViewPagerItem)
+            intent.putExtra(RoveConstants.RESTORE_FRAGMENT, currentViewPagerItem)
             startActivity(intent)
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
@@ -57,16 +57,16 @@ object Theming {
 
     fun getSortIconForSongs(sort: Int): Int {
         return when (sort) {
-            GoConstants.ASCENDING_SORTING -> R.drawable.ic_sort_alphabetical_descending
-            GoConstants.DESCENDING_SORTING -> R.drawable.ic_sort_alphabetical_ascending
-            GoConstants.TRACK_SORTING -> R.drawable.ic_sort_numeric_descending
+            RoveConstants.ASCENDING_SORTING -> R.drawable.ic_sort_alphabetical_descending
+            RoveConstants.DESCENDING_SORTING -> R.drawable.ic_sort_alphabetical_ascending
+            RoveConstants.TRACK_SORTING -> R.drawable.ic_sort_numeric_descending
             else -> R.drawable.ic_sort_numeric_ascending
         }
     }
 
     fun getSortIconForSongsDisplayName(sort: Int): Int {
         return when (sort) {
-            GoConstants.ASCENDING_SORTING -> R.drawable.ic_sort_alphabetical_descending
+            RoveConstants.ASCENDING_SORTING -> R.drawable.ic_sort_alphabetical_descending
             else -> R.drawable.ic_sort_alphabetical_ascending
         }
     }
@@ -176,19 +176,19 @@ object Theming {
 
     @JvmStatic
     fun getTabIcon(tab: String) = when (tab) {
-        GoConstants.ARTISTS_TAB -> R.drawable.ic_artist
-        GoConstants.ALBUM_TAB -> R.drawable.ic_library_music
-        GoConstants.SONGS_TAB -> R.drawable.ic_music_note
-        GoConstants.FOLDERS_TAB -> R.drawable.ic_folder_music
+        RoveConstants.ARTISTS_TAB -> R.drawable.ic_artist
+        RoveConstants.ALBUM_TAB -> R.drawable.ic_library_music
+        RoveConstants.SONGS_TAB -> R.drawable.ic_music_note
+        RoveConstants.FOLDERS_TAB -> R.drawable.ic_folder_music
         else -> R.drawable.ic_settings
     }
 
     @JvmStatic
     fun getTabAccessibilityText(tab: String) = when (tab) {
-        GoConstants.ARTISTS_TAB -> R.string.artists
-        GoConstants.ALBUM_TAB -> R.string.albums
-        GoConstants.SONGS_TAB -> R.string.songs
-        GoConstants.FOLDERS_TAB -> R.string.folders
+        RoveConstants.ARTISTS_TAB -> R.string.artists
+        RoveConstants.ALBUM_TAB -> R.string.albums
+        RoveConstants.SONGS_TAB -> R.string.songs
+        RoveConstants.FOLDERS_TAB -> R.string.folders
         else -> R.string.settings
     }
 
@@ -202,9 +202,9 @@ object Theming {
 
     @JvmStatic
     fun getNotificationActionTitle(action: String) = when (action) {
-        GoConstants.REPEAT_ACTION -> R.string.notification_actions_repeat
-        GoConstants.REWIND_ACTION -> R.string.notification_actions_fast_seeking
-        GoConstants.FAVORITE_ACTION -> R.string.notification_actions_favorite
+        RoveConstants.REPEAT_ACTION -> R.string.notification_actions_repeat
+        RoveConstants.REWIND_ACTION -> R.string.notification_actions_fast_seeking
+        RoveConstants.FAVORITE_ACTION -> R.string.notification_actions_favorite
         else -> R.string.notification_actions_favorite_position
     }
 
@@ -212,22 +212,22 @@ object Theming {
     fun getNotificationActionIcon(action: String, isNotification: Boolean): Int {
         val mediaPlayerHolder = MediaPlayerHolder.getInstance()
         return when (action) {
-            GoConstants.PLAY_PAUSE_ACTION -> if (mediaPlayerHolder.isPlaying) {
+            RoveConstants.PLAY_PAUSE_ACTION -> if (mediaPlayerHolder.isPlaying) {
                 R.drawable.ic_pause
             } else {
                 R.drawable.ic_play
             }
-            GoConstants.REPEAT_ACTION -> if (isNotification) {
+            RoveConstants.REPEAT_ACTION -> if (isNotification) {
                 getRepeatIcon(isNotification = true)
             } else {
                 R.drawable.ic_repeat
             }
-            GoConstants.PREV_ACTION -> R.drawable.ic_skip_previous
-            GoConstants.NEXT_ACTION -> R.drawable.ic_skip_next
-            GoConstants.CLOSE_ACTION -> R.drawable.ic_close
-            GoConstants.FAST_FORWARD_ACTION -> R.drawable.ic_fast_forward
-            GoConstants.REWIND_ACTION -> R.drawable.ic_fast_rewind
-            GoConstants.FAVORITE_ACTION -> if (isNotification) {
+            RoveConstants.PREV_ACTION -> R.drawable.ic_skip_previous
+            RoveConstants.NEXT_ACTION -> R.drawable.ic_skip_next
+            RoveConstants.CLOSE_ACTION -> R.drawable.ic_close
+            RoveConstants.FAST_FORWARD_ACTION -> R.drawable.ic_fast_forward
+            RoveConstants.REWIND_ACTION -> R.drawable.ic_fast_rewind
+            RoveConstants.FAVORITE_ACTION -> if (isNotification) {
                 getFavoriteIcon(isNotification = true)
             } else {
                 R.drawable.ic_favorite

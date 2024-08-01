@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.databinding.ActiveTabItemBinding
@@ -46,7 +46,7 @@ class ActiveTabsAdapter: RecyclerView.Adapter<ActiveTabsAdapter.CheckableItemsHo
 
                 tabImage.setImageResource(Theming.getTabIcon(availableItems[absoluteAdapterPosition]))
 
-                root.isEnabled = availableItems[absoluteAdapterPosition] != GoConstants.SETTINGS_TAB
+                root.isEnabled = availableItems[absoluteAdapterPosition] != RoveConstants.SETTINGS_TAB
                 root.isClickable = root.isEnabled
 
                 if (root.isEnabled) {
@@ -107,10 +107,10 @@ class ActiveTabsAdapter: RecyclerView.Adapter<ActiveTabsAdapter.CheckableItemsHo
     }
 
     private fun getTabText(tab: String) = when (tab) {
-        GoConstants.ARTISTS_TAB -> R.string.artists
-        GoConstants.ALBUM_TAB -> R.string.albums
-        GoConstants.SONGS_TAB -> R.string.songs
-        GoConstants.FOLDERS_TAB -> R.string.folders
+        RoveConstants.ARTISTS_TAB -> R.string.artists
+        RoveConstants.ALBUM_TAB -> R.string.albums
+        RoveConstants.SONGS_TAB -> R.string.songs
+        RoveConstants.FOLDERS_TAB -> R.string.folders
         else -> R.string.settings
     }
 }

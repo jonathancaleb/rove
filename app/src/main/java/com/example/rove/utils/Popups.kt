@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.example.rove.RovePreferences
 import com.example.rove.R
 import com.example.rove.extensions.enablePopupIcons
@@ -63,7 +63,7 @@ object Popups {
             inflate(R.menu.popup_speed)
             gravity = Gravity.END
 
-            if (RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
+            if (RovePreferences.getPrefsInstance().playbackSpeedMode != RoveConstants.PLAYBACK_SPEED_ONE_ONLY) {
                 menu.findItem(getSelectedPlaybackItem(RovePreferences.getPrefsInstance().latestPlaybackSpeed)).setTitleColor(
                     Theming.resolveThemeColor(activity.resources)
                 )
@@ -82,7 +82,7 @@ object Popups {
                     R.id.speed_8 -> 2.5F
                     else -> 2.5F
                 }
-                if (RovePreferences.getPrefsInstance().playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY) {
+                if (RovePreferences.getPrefsInstance().playbackSpeedMode != RoveConstants.PLAYBACK_SPEED_ONE_ONLY) {
                     menu.findItem(getSelectedPlaybackItem(playbackSpeed)).setTitleColor(
                         Theming.resolveThemeColor(activity.resources)
                     )

@@ -320,7 +320,7 @@ class MusicContainersFragment : Fragment(),
             notifyDataSetChanged()
         }
 
-        override fun getPopupText(position: Int): String {
+        override fun getPopupText(view: View, position: Int): CharSequence {
             if (sIsFastScrollerPopup) {
                 mList?.get(position)?.run {
                     if (isNotEmpty()) return first().toString()

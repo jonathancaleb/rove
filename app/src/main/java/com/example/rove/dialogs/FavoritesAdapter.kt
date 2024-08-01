@@ -40,7 +40,7 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>(
     }
 
     override fun onBindViewHolder(holder: FavoritesHolder, position: Int) {
-        holder.bindItems(mFavorites?.get(holder.absoluteAdapterPosition))
+        holder.bindItems(mFavorites?.get(holder.adapterPosition))
     }
 
     inner class FavoritesHolder(private val binding: MusicItemBinding): RecyclerView.ViewHolder(binding.root) {
@@ -59,11 +59,11 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder>(
                 root.setOnClickListener {
                     onFavoritesQueued?.invoke(
                         mFavorites,
-                        Pair(first = true, second = mFavorites?.get(absoluteAdapterPosition))
+                        Pair(first = true, second = mFavorites?.get(adapterPosition))
                     )
                 }
                 root.setOnLongClickListener {
-                    showPopupForFavoriteSongs(absoluteAdapterPosition, root)
+                    showPopupForFavoriteSongs(adapterPosition, root)
                     return@setOnLongClickListener true
                 }
             }

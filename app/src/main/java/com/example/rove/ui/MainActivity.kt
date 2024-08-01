@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.animation.doOnEnd
 import androidx.core.app.ServiceCompat
@@ -25,7 +26,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.example.rove.GoConstants
+import com.example.rove.RoveConstants
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.rove.*
@@ -70,9 +71,9 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     private var mDetailsFragment: DetailsFragment? = null
 
     // Booleans
-    private val sDetailsFragmentExpanded get() = supportFragmentManager.isFragment(GoConstants.DETAILS_FRAGMENT_TAG)
+    private val sDetailsFragmentExpanded get() = supportFragmentManager.isFragment(RoveConstants.DETAILS_FRAGMENT_TAG)
     private var sAllowCommit = true
-    private val sLaunchedByTile get() = intent != null && intent.hasExtra(GoConstants.LAUNCHED_BY_TILE)
+    private val sLaunchedByTile get() = intent != null && intent.hasExtra(RoveConstants.LAUNCHED_BY_TILE)
 
     private var sCloseDetailsFragment = true
 
@@ -110,6 +111,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     // Defines callbacks for service binding, passed to bindService()
     private val connection = object : ServiceConnection {
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun onServiceConnected(componentName: ComponentName, service: IBinder) {
             // get bound service and instantiate MediaPlayerHolder
             val binder = service as PlayerService.LocalBinder
@@ -170,7 +172,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         sAllowCommit = false
-        outState.putInt(GoConstants.RESTORE_FRAGMENT, mMainActivityBinding.viewPager2.currentItem)
+        outState.putInt(RoveConstants.RESTORE_FRAGMENT, mMainActivityBinding.viewPager2.currentItem)
     }
 
     override fun onResumeFragments() {
@@ -189,9 +191,9 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        if (intent != null && intent.hasExtra(GoConstants.LAUNCHED_BY_TILE)) {
+        if (intent.hasExtra(RoveConstants.LAUNCHED_BY_TILE)) {
             if (!mMediaPlayerHolder.isPlaying) mMediaPlayerHolder.resumeOrPause()
             return
         }
@@ -236,11 +238,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         if (Versioning.isMarshmallow()) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)
             when (requestCode) {
-                GoConstants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE -> {
+                RoveConstants.PERMISSION_REQUEST_READ_EXTERNAL_STORAGE -> {
                     // If request is cancelled, the result arrays are empty.
                     if ((grantResults.isNotEmpty() && grantResults.first() != PackageManager.PERMISSION_GRANTED)) {
                         // Permission denied, boo! Error!
-                        notifyError(GoConstants.TAG_NO_PERMISSION)
+                        notifyError(RoveConstants.TAG_NO_PERMISSION)
                         return
                     }
                     // Permission was granted, yay! Do bind service
@@ -251,7 +253,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     }
 
     override fun onDenyPermission() {
-        notifyError(GoConstants.TAG_NO_PERMISSION)
+        notifyError(RoveConstants.TAG_NO_PERMISSION)
     }
 
     override fun onStart() {
@@ -292,11 +294,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         sAllowCommit = true
 
         savedInstanceState?.run {
-            mTabToRestore = getInt(GoConstants.RESTORE_FRAGMENT, -1)
+            mTabToRestore = getInt(RoveConstants.RESTORE_FRAGMENT, -1)
         }
 
-        if (intent.hasExtra(GoConstants.RESTORE_FRAGMENT) && mTabToRestore == -1) {
-            mTabToRestore = intent.getIntExtra(GoConstants.RESTORE_FRAGMENT, -1)
+        if (intent.hasExtra(RoveConstants.RESTORE_FRAGMENT) && mTabToRestore == -1) {
+            mTabToRestore = intent.getIntExtra(RoveConstants.RESTORE_FRAGMENT, -1)
         }
     }
 
@@ -314,13 +316,14 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                 if (sAllowCommit) {
                     supportFragmentManager.addFragment(
                         ErrorFragment.newInstance(errorType),
-                        GoConstants.ERROR_FRAGMENT_TAG
+                        RoveConstants.ERROR_FRAGMENT_TAG
                     )
                 }
             }
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun finishSetup(music: MutableList<Music>?) {
         if (!music.isNullOrEmpty()) {
             mMainActivityBinding.loadingProgressBar.handleViewVisibility(show = false)
@@ -344,10 +347,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             }
             return
         }
-        notifyError(GoConstants.TAG_NO_MUSIC)
+        notifyError(RoveConstants.TAG_NO_MUSIC)
     }
 
     // Handle restoring: handle intent data, if any, or restore playback
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun handleRestore() {
         synchronized(restorePlayerStatus()) {
             if (sLaunchedByTile) {
@@ -429,23 +433,23 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     private fun initFragmentAt(position: Int): Fragment {
         when (mRovePreferences.activeTabs.toList()[position]) {
-            GoConstants.ARTISTS_TAB -> mArtistsFragment = MusicContainersFragment.newInstance(
-                GoConstants.ARTIST_VIEW)
-            GoConstants.ALBUM_TAB -> mAlbumsFragment = MusicContainersFragment.newInstance(
-                GoConstants.ALBUM_VIEW)
-            GoConstants.SONGS_TAB -> mAllMusicFragment = AllMusicFragment.newInstance()
-            GoConstants.FOLDERS_TAB -> mFoldersFragment = MusicContainersFragment.newInstance(
-                GoConstants.FOLDER_VIEW)
+            RoveConstants.ARTISTS_TAB -> mArtistsFragment = MusicContainersFragment.newInstance(
+                RoveConstants.ARTIST_VIEW)
+            RoveConstants.ALBUM_TAB -> mAlbumsFragment = MusicContainersFragment.newInstance(
+                RoveConstants.ALBUM_VIEW)
+            RoveConstants.SONGS_TAB -> mAllMusicFragment = AllMusicFragment.newInstance()
+            RoveConstants.FOLDERS_TAB -> mFoldersFragment = MusicContainersFragment.newInstance(
+                RoveConstants.FOLDER_VIEW)
             else -> mSettingsFragment = SettingsFragment.newInstance()
         }
         return handleOnNavigationItemSelected(position)
     }
 
     private fun handleOnNavigationItemSelected(index: Int) = when (mRovePreferences.activeTabs.toList()[index]) {
-        GoConstants.ARTISTS_TAB -> mArtistsFragment ?: initFragmentAt(index)
-        GoConstants.ALBUM_TAB -> mAlbumsFragment ?: initFragmentAt(index)
-        GoConstants.SONGS_TAB -> mAllMusicFragment ?: initFragmentAt(index)
-        GoConstants.FOLDERS_TAB -> mFoldersFragment ?: initFragmentAt(index)
+        RoveConstants.ARTISTS_TAB -> mArtistsFragment ?: initFragmentAt(index)
+        RoveConstants.ALBUM_TAB -> mAlbumsFragment ?: initFragmentAt(index)
+        RoveConstants.SONGS_TAB -> mAllMusicFragment ?: initFragmentAt(index)
+        RoveConstants.FOLDERS_TAB -> mFoldersFragment ?: initFragmentAt(index)
         else -> mSettingsFragment ?: initFragmentAt(index)
     }
 
@@ -494,7 +498,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             if (sAllowCommit) {
                 supportFragmentManager.addFragment(
                     mDetailsFragment,
-                    GoConstants.DETAILS_FRAGMENT_TAG
+                    RoveConstants.DETAILS_FRAGMENT_TAG
                 )
             }
         }
@@ -583,7 +587,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     override fun onPlaybackSpeedToggled() {
         //avoid having user stuck at selected playback speed
-        val isPlaybackPersisted = mRovePreferences.playbackSpeedMode != GoConstants.PLAYBACK_SPEED_ONE_ONLY
+        val isPlaybackPersisted = mRovePreferences.playbackSpeedMode != RoveConstants.PLAYBACK_SPEED_ONE_ONLY
         var playbackSpeed = 1.0F
         if (isPlaybackPersisted) playbackSpeed = mRovePreferences.latestPlaybackSpeed
         mMediaPlayerHolder.setPlaybackSpeed(playbackSpeed)
@@ -627,6 +631,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun restorePlayerStatus() {
         // If we are playing and the activity was restarted
         // update the controls panel
@@ -668,12 +673,13 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                     )
                     return
                 }
-                notifyError(GoConstants.TAG_SD_NOT_READY)
+                notifyError(RoveConstants.TAG_SD_NOT_READY)
             }
         }
     }
 
     // method to update info on controls panel
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun updatePlayingInfo(restore: Boolean) {
 
         val selectedSong = mMediaPlayerHolder.currentSongFM ?: mMediaPlayerHolder.currentSong
@@ -716,7 +722,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
 
     private fun updatePlayingSongTitle(currentSong: Music) {
         var songTitle = currentSong.title
-        if (RovePreferences.getPrefsInstance().songsVisualization == GoConstants.FN) {
+        if (RovePreferences.getPrefsInstance().songsVisualization == RoveConstants.FN) {
             songTitle = currentSong.displayName.toFilenameWithoutExtension()
         }
         mPlayerControlsPanelBinding.playingSong.text = songTitle
@@ -725,8 +731,8 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
     private fun getSongSource(): String? {
         val selectedSong = (mMediaPlayerHolder.currentSongFM ?: mMediaPlayerHolder.currentSong)
         return when (mMediaPlayerHolder.launchedBy) {
-            GoConstants.FOLDER_VIEW -> selectedSong?.relativePath
-            GoConstants.ARTIST_VIEW -> selectedSong?.artist
+            RoveConstants.FOLDER_VIEW -> selectedSong?.relativePath
+            RoveConstants.ARTIST_VIEW -> selectedSong?.artist
             else -> selectedSong?.album
         }
     }
@@ -908,7 +914,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                     restoreQueueSong = songToQueue
                 }
 
-                if (!isPlaying || state == GoConstants.PAUSED) {
+                if (!isPlaying || state == RoveConstants.PAUSED) {
                     startSongFromQueue(songToQueue)
                 }
             }
@@ -970,6 +976,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onAddToFilter(stringsToFilter: List<String>?) {
 
         stringsToFilter?.run {
@@ -985,7 +992,7 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             )
             with(mMediaPlayerHolder) {
                 isPlay = isPlaying
-                updateCurrentSong(song, songs, GoConstants.ARTIST_VIEW)
+                updateCurrentSong(song, songs, RoveConstants.ARTIST_VIEW)
                 initMediaPlayer(song, forceReset = false)
             }
             updatePlayingInfo(restore = false)
@@ -1012,11 +1019,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
                         mMediaPlayerHolder.currentSongFM = mMusicViewModel.getSongFromIntent(
                             cursor.getString(displayNameIndex)
                         )
-                        onSongSelected(mMediaPlayerHolder.currentSongFM, null, GoConstants.ARTIST_VIEW)
+                        onSongSelected(mMediaPlayerHolder.currentSongFM, null, RoveConstants.ARTIST_VIEW)
 
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        notifyError(GoConstants.TAG_NO_MUSIC_INTENT)
+                        notifyError(RoveConstants.TAG_NO_MUSIC_INTENT)
                     }
                 }
             }
@@ -1040,10 +1047,11 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
             mNpDialog?.updateProgress(position)
         }
 
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
         override fun onStateChanged() {
             updatePlayingStatus()
             mNpDialog?.updatePlayingStatus()
-            if (mMediaPlayerHolder.state != GoConstants.RESUMED && mMediaPlayerHolder.state != GoConstants.PAUSED) {
+            if (mMediaPlayerHolder.state != RoveConstants.RESUMED && mMediaPlayerHolder.state != RoveConstants.PAUSED) {
                 updatePlayingInfo(restore = false)
                 if (mMediaPlayerHolder.isQueue != null) {
                     mQueueDialog?.swapQueueSong(mMediaPlayerHolder.currentSong)

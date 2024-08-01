@@ -3,7 +3,7 @@ package com.example.rove
 import android.support.v4.media.session.PlaybackStateCompat
 
 
-object GoConstants {
+object RoveConstants {
 
     const val PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 2588
     const val LAUNCHED_BY_TILE = "LAUNCHED_BY_TILE"
