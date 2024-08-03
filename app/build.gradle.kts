@@ -98,7 +98,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     //support dependencies
-    implementation(libs.androidx.activity)
+    implementation(libs.androidx.activity.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
     // 3rd party dependencies

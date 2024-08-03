@@ -1,5 +1,6 @@
 [versions]
 activity = "1.10.0-alpha01"
+activityKtxVersion = "1.9.1"
 agp = "8.5.0"
 browser = "1.8.0"
 coil = "2.6.0"
@@ -22,6 +23,7 @@ preferenceKtx = "1.2.1"
 
 [libraries]
 androidx-activity = { module = "androidx.activity:activity", version.ref = "activity" }
+androidx-activity-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtxVersion" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
