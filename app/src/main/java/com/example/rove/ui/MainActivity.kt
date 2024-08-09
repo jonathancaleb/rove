@@ -132,6 +132,8 @@ class MainActivity : BaseActivity(), UIControlInterface, MediaControlInterface {
         }
     }
 
+//    build finished but with errors
+
     private val equalizerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == EqualizerFragment.EQUALIZER_CANCELED_RESULT) {
             mSettingsFragment?.getPreferencesFragment()?.enableEqualizerOption()
