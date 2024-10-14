@@ -7,7 +7,7 @@ import coil.ImageLoaderFactory
 import coil.request.CachePolicy
 import com.example.rove.utils.Theming
 
-//check fr bugs
+//check fr bugs and xml crushes
 class RoveApp : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
