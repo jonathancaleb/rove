@@ -7,8 +7,8 @@ import coil.ImageLoaderFactory
 import coil.request.CachePolicy
 import com.example.rove.utils.Theming
 
-
-class GoApp : Application(), ImageLoaderFactory {
+//check fr bugs
+class RoveApp : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
